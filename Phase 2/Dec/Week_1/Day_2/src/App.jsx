@@ -1,24 +1,18 @@
-import { useState } from 'react'
+import Home from "./components/Home"
+
+function Header() {
+  return <h2>Hello i am tanveer a Full stcak</h2>
+}
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header/>
+      <Home/>
     </>
   )
 }
 
-export default App
+export default App;
