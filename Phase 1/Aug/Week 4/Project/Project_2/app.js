@@ -1,6 +1,5 @@
  AOS.init();
 
-    // GSAP Mood Background
     function setMood(mood) {
       let color;
       if (mood === "happy") color = "linear-gradient(135deg, #ffeb3b, #fbc02d)";

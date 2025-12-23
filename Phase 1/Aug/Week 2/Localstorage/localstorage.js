@@ -1,4 +1,3 @@
-// localstorage.js
 const KEY = "myapp.username"; // use a unique key so you don't collide with other apps
 const input = document.getElementById("nameInput");
 const saveBtn = document.getElementById("saveBtn");

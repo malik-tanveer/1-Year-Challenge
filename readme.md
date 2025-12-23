@@ -11,17 +11,16 @@
 
 ---
 
-## 🧭 *Updated Phase-Based 1-Year Roadmap (Starting 1 August 2025)*
+## *Updated Phase-Based 1-Year Roadmap (Starting 1 August 2025)*
 
----
 
 ### 🔹 *Phase 1: React Advanced + Web Skills (Aug–Oct)*
 
 | Month   | Focus                                                                      | Tools/Topics           | Projects                          |
 | ------- | -------------------------------------------------------------------------- | ---------------------- | --------------------------------- |
-| *Aug* | HTML/CSS/JS Review + Tailwind CSS ,DOM, Fetch, API                       | Tailwind, GSAP, AOS    | Responsive Portfolio, Weather App | ✅
-| *Sep* | React Deep Dive:<br>Hooks, Forms, Routing, Context                         | React, Axios, Firebase | Blog UI, Todo App                 |✅
-| *Oct* | Advanced React Patterns<br>React + Tailwind Systems<br>Reusable Components | React, Formik, Yup     | Admin Dashboard UI                |✅
+| *Aug* | HTML/CSS/JS Review + Tailwind CSS ,DOM, Fetch, API                       | Tailwind, GSAP, AOS    | Responsive Portfolio, Weather App | 
+| *Sep* | React Deep Dive:<br>Hooks, Forms, Routing, Context                         | React, Axios, Firebase | Blog UI, Todo App                 |
+| *Oct* | Advanced React Patterns<br>React + Tailwind Systems<br>Reusable Components | React, Formik, Yup     | Admin Dashboard UI                |
 
 ---
 
@@ -62,6 +61,6 @@ Next.js for SSR & SEO <br>
 Three.js for 3D Web Experiences <br>
 Angular for Enterprise-level frontend <br>
 GitHub Projects + Docker + Deployment <br>
-Freelance-ready Profile + Portfolio <br>
+Freelance-ready Profile + Portfolio <br>
 
 ---

@@ -1,8 +1,7 @@
 "use strict";
 /**
  * Function.js — ES6+ Functions with Classes, Objects, Arrays
- * Run with: node Function.js
- *
+ 
  * Covers: simple, expression, arrow, anonymous, IIFE, default, rest,
  * object methods, class methods, higher-order functions.
  * Each step has WHY + return usage.
@@ -13,9 +12,7 @@ const section = (title) => {
   console.log(`\n${line}\n${title}\n${line}`);
 };
 
-// ------------------------------------------------------------
 // 1) Simple Function Declaration
-// ------------------------------------------------------------
 section("1) Simple Function Declaration");
 
 // WHY: Clear and reusable. Always returns a value.
@@ -25,9 +22,7 @@ function add(a, b) {
 
 console.log("add(5, 3):", add(5, 3));
 
-// ------------------------------------------------------------
 // 2) Function Expression
-// ------------------------------------------------------------
 section("2) Function Expression");
 
 // WHY: Store functions in variables, flexible for passing around.
@@ -37,9 +32,7 @@ const multiply = function (x, y) {
 
 console.log("multiply(4, 6):", multiply(4, 6));
 
-// ------------------------------------------------------------
 // 3) Arrow Function
-// ------------------------------------------------------------
 section("3) Arrow Function");
 
 // WHY: Short syntax, especially with array methods.
@@ -47,9 +40,7 @@ const numbers = [1, 2, 3, 4, 5];
 const squares = numbers.map((n) => n * n);
 console.log("Squares:", squares);
 
-// ------------------------------------------------------------
 // 4) Anonymous Function in Arrays
-// ------------------------------------------------------------
 section("4) Anonymous Function");
 
 // WHY: Handy for one-time callbacks.
@@ -58,9 +49,7 @@ const evenNumbers = numbers.filter(function (n) {
 });
 console.log("Even numbers:", evenNumbers);
 
-// ------------------------------------------------------------
 // 5) IIFE (Immediately Invoked Function Expression)
-// ------------------------------------------------------------
 section("5) IIFE");
 
 // WHY: Creates a private scope and runs immediately.
@@ -70,9 +59,7 @@ const resultIIFE = (function (a, b) {
 
 console.log("IIFE result:", resultIIFE);
 
-// ------------------------------------------------------------
 // 6) Default + Rest Parameters
-// ------------------------------------------------------------
 section("6) Default + Rest Parameters");
 
 // WHY: Default avoids undefined, Rest collects multiple args.
@@ -83,9 +70,7 @@ function greet(name = "Guest", ...hobbies) {
 console.log(greet("Talha", "Coding", "Cricket"));
 console.log(greet());
 
-// ------------------------------------------------------------
 // 7) Object Methods (Normal vs Arrow)
-// ------------------------------------------------------------
 section("7) Object Methods");
 
 const person_1 = {
@@ -101,9 +86,7 @@ const person_1 = {
 console.log(person_1.normalMethod()); // Works
 console.log(person_1.arrowMethod()); // 'undefined', arrow has no 'this'
 
-// ------------------------------------------------------------
 // 8) Class with Methods
-// ------------------------------------------------------------
 section("8) Class with Methods");
 
 class Student {
@@ -127,9 +110,7 @@ const s1 = new Student("Hina", 95);
 console.log(s1.getInfo());
 console.log(s1.getGreeting());
 
-// ------------------------------------------------------------
 // 9) Higher-Order Function
-// ------------------------------------------------------------
 section("9) Higher-Order Function");
 
 // WHY: A function that returns another function.
@@ -142,9 +123,7 @@ function power(exponent) {
 const square = power(2);
 console.log("square(7):", square(7));
 
-// ------------------------------------------------------------
 // 10) Mini Project: Shop Example (Functions + Objects + Classes + Arrays)
-// ------------------------------------------------------------
 section("10) Mini Project: Shop Example");
 
 class Product {
@@ -190,9 +169,7 @@ console.log("Cart total:", shop.getTotal());
 console.log(shop.removeProduct("Pen"));
 console.log(shop.checkout());
 
-// ------------------------------------------------------------
 // 11) Practice Tasks
-// ------------------------------------------------------------
 section("11) Practice Tasks");
 
 console.log(`
@@ -221,9 +198,7 @@ ${title}
 ${line}`);
 };
 
-// ------------------------------------------------------------
 // 1) Simple Function Declaration — returns a value
-// ------------------------------------------------------------
 section_1("1) Simple function declaration (returns)");
 
 // This is the classic function: defined with `function`, returns a value.
@@ -233,9 +208,7 @@ function greet(name) {
 }
 console.log(greet("Talha")); // -> "Hello Talha"
 
-// ------------------------------------------------------------
 // 2) Function Expression — stored in a variable
-// ------------------------------------------------------------
 section_1("2) Function expression");
 
 // WHY: Useful when you want to create functions conditionally or pass them around.
@@ -244,18 +217,14 @@ const sayBye = function (name) {
 };
 console.log(sayBye("Aisha"));
 
-// ------------------------------------------------------------
 // 3) Arrow Function (concise) — returns implicitly when one-liner
-// ------------------------------------------------------------
 section_1("3) Arrow functions (concise)");
 
 // WHY: Shorter syntax. Good for inline callbacks and simple transforms.
 const greetArrow = (name) => `Hello ${name} (arrow)`;
 console.log(greetArrow("Sara"));
 
-// ------------------------------------------------------------
 // 4) Anonymous function (used as callback) — often has no name
-// ------------------------------------------------------------
 section_1("4) Anonymous callbacks");
 
 const arr = [1, 2, 3];
@@ -268,9 +237,7 @@ arr.forEach(function (n) {
 const doubled = arr.map((n) => n * 2); // map returns a new array
 console.log("doubled:", doubled);
 
-// ------------------------------------------------------------
 // 5) IIFE — Immediately Invoked Function Expression (returns value)
-// ------------------------------------------------------------
 section_1("5) IIFE (immediate result)");
 
 // WHY: Use to create a temporary scope or compute a value immediately.
@@ -280,9 +247,7 @@ const randomId = (function () {
 })();
 console.log("randomId:", randomId);
 
-// ------------------------------------------------------------
 // 6) Default parameters & Rest parameters (returns computed values)
-// ------------------------------------------------------------
 section_1("6) Default and Rest parameters (returns)");
 
 // Default: prevents undefined when arg is missing
@@ -302,9 +267,7 @@ console.log("sumAll:", sumAll(5, 10, 15)); // returns 30
 const nums = [3, 7, 2];
 console.log("Math.max with spread:", Math.max(...nums));
 
-// ------------------------------------------------------------
 // 7) Object methods — normal vs arrow, and returning `this` for chaining
-// ------------------------------------------------------------
 section_1("7) Object methods and `this` / return this");
 
 const person = {
@@ -344,9 +307,7 @@ console.log("chained counter value:", chainedValue); // -> 7
 
 // WHY: returning `this` is handy for fluent APIs (jQuery-style, builders, etc.).
 
-// ------------------------------------------------------------
 // 8) Class with methods — constructor, normal methods, arrow methods (as properties)
-// ------------------------------------------------------------
 section_1("8) Class example: Cart (methods, arrow properties, return this)");
 
 class Cart {
@@ -398,9 +359,7 @@ myCart.removeById(2).add({ id: 4, name: "Mug", price: 300 });
 console.log("cart after remove/add names:", myCart.names());
 console.log("cart new total:", myCart.total());
 
-// ------------------------------------------------------------
 // 9) Higher-order function — returns a function (closure)
-// ------------------------------------------------------------
 section_1("9) Higher-order functions (returns function)");
 
 // WHY: Useful to create specialized functions from a general one.
@@ -418,9 +377,7 @@ const makeAdder = (a) => (b) => a + b;
 const add10 = makeAdder(10);
 console.log("add10(5):", add10(5)); // -> 15
 
-// ------------------------------------------------------------
 // 10) Practical Mini Shop — combines class, arrays, functions, and return this
-// ------------------------------------------------------------
 section_1("10) Practical Mini Shop (Class + Arrays + Functions)");
 
 // helper pure functions
@@ -449,9 +406,7 @@ console.log({ subtotalShop, discountApplied, tax, shippingCost, grandTotal });
 const expensiveItems = shop_1.items.filter((i) => i.price > 2000).map((i) => i.name);
 console.log("expensive items:", expensiveItems);
 
-// ------------------------------------------------------------
 // 11) IIFE for encapsulated counter with returned API (module pattern)
-// ------------------------------------------------------------
 section_1("11) IIFE module (returns an API object)");
 
 const CounterModule = (function () {
@@ -474,9 +429,7 @@ const CounterModule = (function () {
 console.log("CounterModule inc:", CounterModule.inc());
 console.log("CounterModule get:", CounterModule.get());
 
-// ------------------------------------------------------------
 // 12) Summary of WHEN to use which function style
-// ------------------------------------------------------------
 section_1("12) Summary — WHEN to use each style (WHY)");
 
 console.log(`
@@ -489,9 +442,7 @@ console.log(`
 - higher-order functions: create specialized functions (e.g., discounts, adders).
 `);
 
-// ------------------------------------------------------------
 // 13) Practice tasks
-// ------------------------------------------------------------
 section_1("13) Practice tasks");
 
 console.log(`

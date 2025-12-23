@@ -1,18 +1,13 @@
 "use strict";
-/**
- * Variable.js — ES6+ variables (simple → advanced step by step)
- * Run with: node Variable.js
- * Each section grows from small/simple example → bigger/practical one
- */
+
+//  Variable.js — ES6+ variables (simple → advanced step by step)
 
 const section = (title) => {
   const line = "=".repeat(60);
   console.log(`\n${line}\n${title}\n${line}`);
 };
 
-// ------------------------------------------------------------
 // 1) let — use when value can change
-// ------------------------------------------------------------
 section("1) let (value can change)");
 
 // Simple
@@ -29,9 +24,7 @@ votes = votes + 1; // person A votes
 votes = votes + 1; // person B votes
 console.log("Total votes:", votes); // -> 2
 
-// ------------------------------------------------------------
 // 2) const — fixed value (cannot change reference)
-// ------------------------------------------------------------
 section("2) const (fixed reference)");
 
 // Simple
@@ -56,9 +49,7 @@ try {
   console.log("Cannot reassign const object →", e.name);
 }
 
-// ------------------------------------------------------------
 // 3) var — old way (avoid)
-// ------------------------------------------------------------
 section("3) var (old, avoid)");
 
 // Simple
@@ -81,9 +72,7 @@ for (let j = 1; j <= 3; j++) {
 }
 // prints 1,2,3 correctly
 
-// ------------------------------------------------------------
 // 4) Scope — where variables live
-// ------------------------------------------------------------
 section("4) Scope (block vs function vs global)");
 
 {
@@ -107,9 +96,7 @@ try {
   console.log("local hidden outside function →", e.name);
 }
 
-// ------------------------------------------------------------
 // 5) Hoisting — var vs let/const
-// ------------------------------------------------------------
 section("5) Hoisting");
 
 console.log("var before declare:", hoistedVar); // undefined (hoisted)
@@ -122,9 +109,7 @@ try {
   console.log("let before declare →", e.name);
 }
 
-// ------------------------------------------------------------
 // 6) const with objects/arrays
-// ------------------------------------------------------------
 section("6) const with objects/arrays");
 
 const student = { name: "Ali", marks: [90] };
@@ -138,9 +123,7 @@ try {
   console.log("Cannot reassign const →", e.name);
 }
 
-// ------------------------------------------------------------
 // 7) Destructuring — pick values easily
-// ------------------------------------------------------------
 section("7) Destructuring");
 
 const user = { id: 1, name: "Ayesha" };
@@ -151,9 +134,7 @@ const numbers = [10, 20, 30];
 const [first, , third] = numbers;
 console.log("first:", first, "third:", third);
 
-// ------------------------------------------------------------
 // 8) Example project — Shopping cart variables
-// ------------------------------------------------------------
 section("8) Example project: Shopping cart");
 
 const storeName = "My Shop"; // const (never changes)
@@ -173,9 +154,7 @@ for (let i = 0; i < cart.length; i++) {
 }
 console.log("Total price:", total);
 
-// ------------------------------------------------------------
 // 9) Best practice summary
-// ------------------------------------------------------------
 section("9) Best Practices");
 console.log(`
 - Use const by default (safe, prevents bugs)
@@ -187,9 +166,7 @@ console.log(`
 
 console.log("\nDone with Variable.js → Next file: Array.js");
 
-// ------------------------------------------------------------
 // 10) Project: Mini Shop — simple → big (step by step, with WHY)
-// ------------------------------------------------------------
 section("10) Project: Mini Shop — simple → big");
 
 // WHY: Use const for values that never change, let for values that change.

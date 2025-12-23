@@ -6,7 +6,7 @@ document.getElementById("getPokemon").addEventListener("click", async () => {
     const res = await fetch(url);
 
     if (!res.ok) {
-      throw new Error("❌ Pokémon not found!");
+      throw new Error("Pokémon not found!");
     }
 
     const data = await res.json();

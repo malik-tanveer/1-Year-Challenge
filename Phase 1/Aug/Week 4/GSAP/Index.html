@@ -4,153 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GSAP 3D Website</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: white;
-      perspective: 1500px; /* enable 3D depth */
-      overflow-x: hidden;
-    }
-
-    /* Navbar */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 40px;
-      background: rgba(0,0,0,0.7);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      transform: translateY(-100px) rotateX(-90deg);
-      opacity: 0;
-    }
-
-    nav .logo {
-      font-size: 26px;
-      font-weight: bold;
-      color: #00ffcc;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-    }
-
-    nav ul li {
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-
-    nav ul li:hover {
-      transform: rotateY(15deg) scale(1.1);
-      color: #00ffcc;
-    }
-
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 100px 20px;
-    }
-
-    .hero h1 {
-      font-size: 60px;
-      margin: 0;
-      opacity: 0;
-      transform: rotateX(-90deg);
-    }
-
-    .hero p {
-      font-size: 22px;
-      margin: 20px 0;
-      opacity: 0;
-      transform: translateZ(-200px);
-    }
-
-    .hero button {
-      padding: 15px 30px;
-      font-size: 20px;
-      background: #00ffcc;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      opacity: 0;
-      transform: rotateY(90deg);
-    }
-
-    /* Products */
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-      padding: 60px;
-    }
-
-    .card {
-      background: #1c1c1c;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-      opacity: 0;
-      transform: rotateY(90deg);
-      transition: transform 0.4s;
-    }
-
-    .card img {
-      max-width: 100%;
-      border-radius: 8px;
-    }
-
-    .card:hover {
-      transform: rotateY(0) scale(1.05);
-    }
-
-    /* FAQ */
-    .faq {
-      padding: 40px;
-      background: #222;
-    }
-
-    .faq h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      opacity: 0;
-      transform: rotateX(-90deg);
-    }
-
-    .faq-item {
-      background: #333;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateZ(-300px);
-      transition: transform 0.3s;
-    }
-
-    .faq-item:hover {
-      transform: rotateX(10deg) scale(1.05);
-    }
-
-    /* Footer */
-    footer {
-      background: #111;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      opacity: 0;
-      transform: rotateX(90deg);
-    }
-  </style>
+  <link rel="stylesheet" href="Style.css">
+  
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav>
     <div class="logo">My3DBrand</div>
     <ul>
@@ -161,14 +19,12 @@
     </ul>
   </nav>
 
-  <!-- Hero -->
   <section class="hero">
     <h1 id="hero-title">Experience 3D Web</h1>
-    <p id="hero-sub">With Pure GSAP Animations 🎉</p>
+    <p id="hero-sub">With Pure GSAP Animations </p>
     <button id="hero-btn">Explore Now</button>
   </section>
 
-  <!-- Products -->
   <section class="products">
     <div class="card">
       <img src="https://via.placeholder.com/250x150" alt="Product 1">
@@ -190,12 +46,11 @@
   <!-- FAQ -->
   <section class="faq">
     <h2 id="faq-title">FAQs</h2>
-    <div class="faq-item">👉 What is GSAP?</div>
-    <div class="faq-item">👉 Can GSAP do 3D?</div>
-    <div class="faq-item">👉 Is GSAP free?</div>
+    <div class="faq-item">What is GSAP?</div>
+    <div class="faq-item">Can GSAP do 3D?</div>
+    <div class="faq-item">Is GSAP free?</div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 My3DBrand. All rights reserved.</p>
   </footer>

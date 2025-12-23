@@ -1,42 +1,42 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './components/Login'
-import Click from './components/Click'
 import Packed from './components/Packed';
-import Del from './components/Del';
-import Input from './components/Input';
 import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
-import Toggle from './components/Toggle';
-import Keys from "./components/Keys";
-import List from "./components/List";
+import Day_4 from "./components/Day_4";
+import Day_6 from "./components/Day_6";
+import About from "./pages/About";
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
 
 
 function App() {
 
   return (
     <>
-      {/* <BrowserRouter> */}
+    <Navbar/>
       <div className="day-4">
-
-        <Click />
-        <Input />
-        <Del />
-        <Toggle />
+        <Day_4/>
       </div>
       <div className='Day-5'>
-        <Packed/>
+        {/* <Packed /> */}
         <Routes>
-
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path='/dashboard'
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
         </Routes>
         <Login />
       </div>
       <div className="Day-6">
-        <Keys />
-        <List />
+        <Day_6 />
       </div>
-      {/* </ BrowserRouter> */}
+      
     </>
   )
 }

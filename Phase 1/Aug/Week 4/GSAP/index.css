@@ -1,0 +1,43 @@
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, #e0f7fa, #fff3e0);
+    }
+
+    #box {
+      width: 100px;
+      height: 100px;
+      background: crimson;
+      margin: 15px;
+    }
+
+    #circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: royalblue;
+      margin: 15px;
+    }
+
+    #text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin: 15px;
+      opacity: 0; /* shuru me hidden */
+    }
+
+    #btn {
+      padding: 10px 20px;
+      font-size: 18px;
+      background: seagreen;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 15px;
+    }

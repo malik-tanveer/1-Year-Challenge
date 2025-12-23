@@ -1,17 +1,13 @@
-// Select DOM elements
 const counterDisplay = document.getElementById("counter");
 const decreaseBtn = document.getElementById("decrease");
 const resetBtn = document.getElementById("reset");
 const increaseBtn = document.getElementById("increase");
 
-// Initial value
 let count = 0;
 
-// Function to update UI
 function updateCounter() {
   counterDisplay.textContent = count;
 
-  // Change color based on value
   if (count > 0) {
     counterDisplay.style.color = "green";
   } else if (count < 0) {
@@ -37,5 +33,4 @@ resetBtn.addEventListener("click", () => {
   updateCounter();
 });
 
-// Initialize
 updateCounter();

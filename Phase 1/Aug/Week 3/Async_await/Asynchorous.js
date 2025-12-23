@@ -6,7 +6,7 @@
         const res = await fetch(url);
 
         if (!res.ok) {
-          throw new Error("❌ Failed to fetch dog image!");
+          throw new Error("Failed to fetch dog image!");
         }
 
         const data = await res.json();
@@ -16,7 +16,7 @@
         `;
         document.getElementById("error").textContent = "";
       } catch (err) {
-        document.getElementById("error").textContent = `⚠️ Error: ${err.message}`;
+        document.getElementById("error").textContent = `Error: ${err.message}`;
         document.getElementById("dogImage").innerHTML = "";
       }
     });

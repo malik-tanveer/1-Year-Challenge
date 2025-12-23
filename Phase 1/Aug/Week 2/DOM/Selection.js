@@ -1,6 +1,4 @@
-// =======================
 // DOM SELECTION EXAMPLES
-// =======================
 
 // 1. Select by ID
 const para1 = document.getElementById("para1");
@@ -22,9 +20,7 @@ console.log("Query Selector (first .item):", firstItem);
 const allItems = document.querySelectorAll(".item");
 console.log("Query Selector All:", allItems);
 
-// =======================
 // EVENT EXAMPLES
-// =======================
 
 // CLICK EVENT
 const btn = document.getElementById("clickBtn");
