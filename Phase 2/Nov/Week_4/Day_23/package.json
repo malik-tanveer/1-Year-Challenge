@@ -1,18 +1,21 @@
 {
   "name": "day_23",
   "version": "1.0.0",
-  "description": "",
+  "description": "Hello Today start a Blog Backedn like upload a image & name & author name and much more.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.2.1",
-    "mongoose": "^9.0.2"
+    "mongoose": "^9.0.2",
+    "multer": "^2.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

@@ -10,7 +10,8 @@ export const getAllBlogs = async (req, res) => {
             content,
             author,
             image
-        })
+        });
+        await blog.save();
         res.status(201).json({
             message: "Blog successfully created!",
             blog
