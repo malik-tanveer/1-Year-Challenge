@@ -1,20 +1,21 @@
 {
-  "name": "day_26",
+  "name": "day_27",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "start": "node src/main.js",
+    "dev": "nodemon src/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^5.2.1",
-    "mongoose": "^9.0.2",
+    "bcryptjs": "^3.0.3",
+    "expres": "^0.0.5",
+    "jsonwebtoken": "^9.0.3",
+    "mogoose": "^0.0.1-security",
     "multer": "^2.0.2"
   },
   "devDependencies": {

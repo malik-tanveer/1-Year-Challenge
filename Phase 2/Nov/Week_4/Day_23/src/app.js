@@ -2,14 +2,12 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-import cors from 'cors';
 import databaseConnect from './config/db.js';
 import blogRoutes from './routes/blogRoutes.js';
 
 const app = express();
 const PORT = 3000;
 app.use(express.json());
-app.use(cors());
 databaseConnect();
 
 
@@ -20,7 +18,6 @@ const __dirname = path.dirname(__filename);
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
-  console.log('uploads folder created');
 }
 
 
