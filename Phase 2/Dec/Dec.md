@@ -1,6 +1,6 @@
 ---
 
-**Phase 3 — Month 2: December Roadmap (Full Stack: React + Express + MongoDB)**
+**Phase 2 — Month 2: December Roadmap (Full Stack: React + Express + MongoDB)**
 
 **Goal:** Connect Frontend (React) with Backend (Express + MongoDB), implement CRUD + Auth Flow
 **Duration:** 31 Days (Dec 1 – Dec 31)
