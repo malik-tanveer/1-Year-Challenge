@@ -7,7 +7,8 @@ const itemSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique : true
   },
   title: {
     type: String,
@@ -16,7 +17,7 @@ const itemSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true
-  }
+  } 
 }, { timestamps: true });
 
 export default mongoose.model("Item", itemSchema);
