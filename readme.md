@@ -54,7 +54,7 @@
 
 ---
 
-## 🎯 Final Skills Gained:
+## Final Skills Gained:
 
 React, Express, MongoDB (MERN Pro) <br>
 Next.js for SSR & SEO <br>

@@ -31,7 +31,7 @@ const Login = () => {
       );
 
       if (res.data.token) {
-        login(res.data.token);   
+        login(res.data.token);
         setMessage("Login Success");
         navigate("/");
       }
@@ -41,33 +41,47 @@ const Login = () => {
   };
 
   return (
-    <>
-      <h1>Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-6">
+        <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            onChange={handleChange}
+          />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-        />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            onChange={handleChange}
+          />
 
-        <button type="submit">Login</button>
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white rounded-lg py-2 font-medium hover:bg-blue-700 transition"
+          >
+            Login
+          </button>
+        </form>
 
-      <p>{message}</p>
+        {message && (
+          <p className="text-center mt-3 text-sm text-gray-600">{message}</p>
+        )}
 
-      <p>
-        Don't have an account? <Link to="/signup">Signup</Link>
-      </p>
-    </>
+        <p className="text-center mt-4 text-sm">
+          Don’t have an account?{" "}
+          <Link to="/signup" className="text-blue-600 underline">
+            Signup
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

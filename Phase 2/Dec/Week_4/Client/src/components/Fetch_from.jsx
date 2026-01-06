@@ -3,22 +3,22 @@ import { useEffect, useState } from "react"
 import Update_form from './Update_form';
 
 const Fetch_from = () => {
-    const [items, setItems] = useState([]);
-  const [editingItem, setEditingItem] = useState(null);
+    const [blogs, setBlogs] = useState([]);
+  const [editingBlog, setEditingBlog] = useState(null);
 
     useEffect(() => {
-        fetchItems();
+        fetchBlog();
     }, []);
 
-    const fetchItems = async () => {
-        const res = await axios.get("http://localhost:5000/api/items");
-        setItems(res.data);
+    const fetchBlog = async () => {
+        const res = await axios.get("http://localhost:3000/api/blog");
+        setBlogs(res.data);
     }
 
       const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/items/${id}`);
-      fetchItems(); // refresh the list after deleting
+      await axios.delete(`http://localhost:3000/api/blog/${id}`);
+      fetchBlog();
     } catch (err) {
       console.log(err.response?.data || err.message);
     }
@@ -26,29 +26,28 @@ const Fetch_from = () => {
 
     return (
         <>
-            {items.map((item) => {
+            {blogs.map((blog) => {
                 return (
-                    <div key={item._id}>
-                        <h1>{item.name}</h1>
-                        <h1>{item._id}</h1>
+                    <div key={blog._id}>
+                        <h1>{blog._id}</h1>
+                        <h3>{blog.title}</h3>
+                        <h1>{blog.content}</h1>
 
-                        <p>{item.email}</p>
-                        <h3>{item.title}</h3>
-                        <p>{item.description}</p>
-                         <button onClick={() => handleDelete(item._id)}>Delete</button>
+
+                          <button onClick={() => handleDelete(item._id)}>Delete</button>
     
-                        <button onClick={() => setEditingItem(item)}>
+                        <button onClick={() => setEditingBlog(blog)}>
                             Edit
-                        </button>
+                        </button> 
                         
 
                     </div>
                 )
             })}
-            {editingItem && (
+            {editingBlog && (
                 <Update_form
-                    item={editingItem}
-                    onUpdated={fetchItems}
+                    item={editingBlog}
+                    onUpdated={fetchBlog}
                     closeForm={() => setEditingItem(null)}
                 />
             )}

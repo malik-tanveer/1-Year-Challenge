@@ -1,18 +1,16 @@
 import axios from "axios"
 import { useState } from "react";
 
-const Update_form = ({ item, onUpdated, closeForm }) => {
-    const [name, setName] = useState(item.name);
-    const [email, setEmail] = useState(item.email);
-    const [title, setTitle] = useState(item.title);
-    const [desc, setDesc] = useState(item.description);
+const Update_form = ({ blog, onUpdated, closeForm }) => {
+    const [title, setTitle] = useState(blog.title);
+    const [content, setContent] = useState(blog.description);
 
     const handleUpdate = async (e) => {
         e.preventDefault();
 
-        const updatedItem = { name, email, title, desc };
+        const updatedBlog = {  title, content };
         try {
-            await axios.put(`http://localhost:5000/api/items/${item._id}`, updatedItem);
+            await axios.put(`http://localhost:3000/api/blog/${blog._id}`, updatedBlog);
             onUpdated();
             closeForm()
         } catch (err) {
@@ -22,15 +20,13 @@ const Update_form = ({ item, onUpdated, closeForm }) => {
     return (
         <>
             <form onSubmit={handleUpdate}>
-                <h3>Edit Item</h3>
+                <h3>Edit Blog</h3>
 
-                <input type="text" value={name} name='name' placeholder='Enter your Name' onChange={(e) => setName(e.target.value)} />
-                <input type="text" value={email} name='email' placeholder='Enter your email' onChange={(e) => setEmail(e.target.value)} />
                 <input type="text" value={title} name='title' placeholder='Enter a title' onChange={(e) => setTitle(e.target.value)} />
 
                 <textarea
                     placeholder="Description"
-                    value={desc}
+                    value={content}
                     onChange={(e) => setDesc(e.target.value)}
                 />
 

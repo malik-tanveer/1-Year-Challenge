@@ -13,27 +13,23 @@ export const getBlogs = async (req, res) => {
 }
 
 export const createBlog = async (req, res) => {
-    try {
-        const { title, content } = req.body;
+  try {
+    const { title, content, author } = req.body;
 
-        if (!title || !content) {
-            return res.status(400).json({ message: "Title and content are required" });
-        }
+    const blog = new Blog({ title, content, author });
 
-        const blog = new Blog({
-            title,
-            content,
-            author: req.user.name
-        });
+    await blog.save();
 
-        await blog.save();
-        res.status(201).json({ message: "Blog Created", blog });
+    return res.status(201).json({
+      message: "Blog Created",
+      blog
+    });
 
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({ message: "Invalid data" });
-    }
-}
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "Invalid data" });
+  }
+};
 
 export const updateBlog = async (req, res) => {
     try {

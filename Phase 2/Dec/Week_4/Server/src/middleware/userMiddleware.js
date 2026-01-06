@@ -5,7 +5,7 @@ export const authMiddleware = (req, res, next) => {
     const header = req.headers.authorization;
 
     if (!header || !header.startsWith("Bearer ")) {
-        res.status(401).json({ message: "No token Provided" });
+        return res.status(401).json({ message: "No token Provided" });
     }
 
     const token = header.split(" ")[1];

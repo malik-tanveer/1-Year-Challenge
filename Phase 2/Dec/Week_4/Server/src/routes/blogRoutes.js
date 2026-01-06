@@ -5,9 +5,9 @@ import { authMiddleware } from "../middleware/userMiddleware.js";
 const router = Router();
 
 router.get('/', getBlogs);
-router.post('/', authMiddleware, createBlog);
-router.put("/:id", authMiddleware, updateBlog);
-router.delete("/:id", authMiddleware, deleteBlog);
+router.post('/',  createBlog);
+router.put("/:id", updateBlog);
+router.delete("/:id", deleteBlog);
 
 
 export default router;

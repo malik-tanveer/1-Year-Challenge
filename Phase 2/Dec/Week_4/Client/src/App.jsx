@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Create_form from "./components/Create_form";
+import Fetch_from from "./components/Fetch_from";
 
 function App() {
 
@@ -15,8 +16,16 @@ function App() {
             <Home />
           </ProtectedRoute>} />
 
-        {/* <Route path='/get' element={<Fetch_from/>} /> */}
-        <Route path='/add' element={<Create_form />} />
+        <Route path='/add' element={
+          <ProtectedRoute>
+          <Create_form />
+          </ProtectedRoute>
+          } />
+        <Route path='/get' element={
+          <ProtectedRoute>
+          <Fetch_from />
+          </ProtectedRoute>
+          } />
         {/* <Route path='/put' element={<Update_form/>} /> */}
 
 
