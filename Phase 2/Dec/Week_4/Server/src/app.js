@@ -17,7 +17,7 @@ app.use('/api/auth', userRoutes);
 app.use('/api/blog', blogRoutes);
 
 app.get("/", (req,res)=>{
-    res.send(`Server is runnign on`);
+    res.send("Home Page!");
 });
 
 

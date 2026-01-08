@@ -1,8 +1,9 @@
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 
 const Create_form = () => {
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("");
@@ -10,7 +11,7 @@ const Create_form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const form = { name, content, author };
+    const form = { title, content, author };
 
     try {
 
@@ -24,7 +25,7 @@ const res = await axios.post(
       console.log("Created:", res.data);
       setMessage("Blog created successfully");
 
-      setName("");
+      setTitle("");
       setContent("");
       setAuthor("");
     } catch (err) {
@@ -49,13 +50,14 @@ const res = await axios.post(
 
         <input
           type="text"
-          value={name}
+          value={title}
           placeholder="Blog Name"
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
         />
 
         <textarea
+        required
           placeholder="Content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -63,6 +65,7 @@ const res = await axios.post(
         />
 
         <input
+        required
           type="text"
           value={author}
           placeholder="Author Name"
@@ -76,7 +79,10 @@ const res = await axios.post(
         >
           Create
         </button>
+<Link to="/get" className="text-blue-600 underline-none ">I See a Data</Link>
       </form>
+
+      
     </div>
   );
 };

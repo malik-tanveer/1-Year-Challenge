@@ -26,7 +26,6 @@ function App() {
           <Fetch_from />
           </ProtectedRoute>
           } />
-        {/* <Route path='/put' element={<Update_form/>} /> */}
 
 
         <Route path="/signup" element={<Signup />} />
