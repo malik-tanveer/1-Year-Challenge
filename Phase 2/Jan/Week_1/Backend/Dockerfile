@@ -1,20 +1,20 @@
-# 1. Node base image
+# Use Node 20 base image
 FROM node:20
 
-# 2. App directory inside container
+# App directory inside container
 WORKDIR /app
 
-# 3. Copy package files
+# Copy package files
 COPY package*.json ./
 
-# 4. Install dependencies
+# Install dependencies
 RUN npm install
 
-# 5. Copy rest of the code
+# Copy rest of the code
 COPY . .
 
-# 6. Expose port (same as .env)
+# Expose backend port
 EXPOSE 5000
 
-# 7. Start app
-CMD ["node", "app.js"]
+# Start the server
+CMD ["node", "server.js"]
