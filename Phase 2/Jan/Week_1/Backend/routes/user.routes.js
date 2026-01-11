@@ -1,10 +1,10 @@
 import express from "express";
-import users from "../users.js";
+import users from "../data/users.js";
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.json(users);
+  res.status(200).json(users);
 });
 
 export default router;
