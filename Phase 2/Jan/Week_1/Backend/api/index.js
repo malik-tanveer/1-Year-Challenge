@@ -13,7 +13,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", userRoutes);
 
-// 🔹 Only for local testing
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
@@ -21,4 +20,4 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-export default app; // for Vercel
+export default app;
