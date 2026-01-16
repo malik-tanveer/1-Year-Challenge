@@ -40,9 +40,8 @@ const Login = () => {
     login(res.data.token);
     setSuccess("Login successful");
 
-    // 🔥 IMPORTANT FIX
     setTimeout(() => {
-      navigate("/"); // Home / Dashboard
+      navigate("/"); 
     }, 500);
 
   } catch (err) {

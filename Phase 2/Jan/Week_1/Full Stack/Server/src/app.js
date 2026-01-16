@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authroutes.js";
 import analyzeRoutes from "./routes/analyze.js";
-import authMiddleware from "./middleware/authMiddleware.js";
 
 dotenv.config();
 connectDB();
@@ -20,9 +19,6 @@ app.use("/api/auth", authRoutes);
 
 app.get('/', (req,res)=>{
   res.send("Home Page!");
-})
-app.get("/api/protected", authMiddleware, (req, res) => {
-  res.json({ message: "Authorized", userId: req.user.id });
 });
 
 

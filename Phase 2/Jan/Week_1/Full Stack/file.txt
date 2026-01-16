@@ -1,0 +1,5 @@
+Backend Run = docker run -p 5000:5000 --env-file .env --name backend-container fullstack-backend
+Frontend Run = docker run -d -p 3000:80 --name frontend-container fullstack-frontend
+
+
+Combine run and Run = docker compose up --build

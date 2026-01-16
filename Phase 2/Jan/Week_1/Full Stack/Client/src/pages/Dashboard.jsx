@@ -8,19 +8,34 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();          // token remove + user null
-    navigate("/login"); // 🔥 redirect
+    logout();
+    navigate("/login");
+
+
+    if (user) {
+      return <Navigate to="/dashboard" replace />;
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="bg-gray-900 p-6 rounded-xl text-center space-y-4"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-gray-900 p-6 rounded-xl text-center space-y-4 max-w-md w-full"
       >
-        <ShieldCheck size={40} className="text-green-500 mx-auto" />
-        <h1 className="text-white text-xl">Protected Dashboard</h1>
+        <ShieldCheck size={42} className="text-green-500 mx-auto" />
+
+        <h1 className="text-white text-2xl font-semibold">
+          Protected Dashboard
+        </h1>
+
+        <p className="text-slate-400 text-sm leading-relaxed">
+          This is a secure full stack authentication project built using
+          <span className="text-white"> React, Context API, JWT </span>
+          and a Node.js backend. Only authenticated users can access this
+          dashboard.
+        </p>
 
         <button
           onClick={handleLogout}
