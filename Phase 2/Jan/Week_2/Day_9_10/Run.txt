@@ -1,0 +1,5 @@
+Make a Docekr Image = docker build -t day9-express .
+
+And run a Contianer name of Img = docker run -p 4000:4000 day9-express
+
+Your own Container Name = docker run --name day9-contianer -p 4000:4000 day9-express
