@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./Backend
+    container_name: day14-backend
+    ports:
+      - "4000:4000"
+
+  frontend:
+    build: ./Frontend
+    container_name: day14-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

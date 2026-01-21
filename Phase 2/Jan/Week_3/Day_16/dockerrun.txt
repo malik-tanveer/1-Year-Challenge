@@ -1,0 +1,2 @@
+Docekr Build a Image = docker build -t day16-frontend .
+Dcoekr Run a Conatiner = docker run -d -p 3000:80 --name day16-conatinerfrontend day16-frontend
