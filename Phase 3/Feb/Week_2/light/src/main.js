@@ -72,7 +72,6 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const gui = new GUI();
 
 
-
 // Ambient Light controls
 const ambientFolder = gui.addFolder('Ambient Light');
 ambientFolder.add(AmbientLight, 'intensity', 0, 2);
