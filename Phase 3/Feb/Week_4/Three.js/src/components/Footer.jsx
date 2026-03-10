@@ -85,7 +85,6 @@ export default function Footer() {
       <style>{`
 
         .ft-link {
-          font-family: 'DM Sans', sans-serif;
           color: rgba(10,15,44,0.45);
           text-decoration: none;
           font-size: 13px;
@@ -94,7 +93,6 @@ export default function Footer() {
         }
         .ft-link:hover { color: #001f5c; }
         .ft-link .ft-slash {
-          font-family: 'JetBrains Mono', monospace;
           font-size: 10px;
           color: rgba(0,31,92,0.25);
           transition: color 0.18s;
