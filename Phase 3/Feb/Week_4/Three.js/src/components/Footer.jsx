@@ -81,7 +81,7 @@ export default function Footer() {
               <div className="flex flex-wrap justify-center sm:justify-start gap-3">
                 {[
                   { icon: <Github size={16} />, link: "https://github.com/malik-tanveer" },
-                  { icon: <Linkedin size={16} />, link: "https://linkedin.com" },
+                  { icon: <Linkedin size={16} />, link: "http://linkedin.com/in/malik-tanveer-8bbaa13b2/" },
                   { icon: <Send size={16} />, link: "https://t.me" },
                   { icon: <Mail size={16} />, link: "mailto:mtanveerdev.33@gmail.com" },
                 ].map((s, i) => (
