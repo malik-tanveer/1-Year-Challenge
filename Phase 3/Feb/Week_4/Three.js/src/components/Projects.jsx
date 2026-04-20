@@ -41,7 +41,7 @@ const PROJECTS = [
 {
     id: 5, title: "CryptoView",
     desc: "Crypto dashboard to track coin prices and market trends via CoinGecko API.",
-    tags: ["React", "TypeScript", "Tailwind", "CoinGecko API"],
+    tags: ["React", "JavaScript", "Tailwind", "CoinGecko API"],
     img: "/crypto-project.png",
     github: "https://github.com/malik-tanveer/CryptoView",
     live: "https://crypto-8a576.web.app/",
@@ -53,34 +53,10 @@ const PROJECTS = [
     img: "/apartment-project.png",
     github: "https://github.com/malik-tanveer/Apartment-Website",
     live: "https://apartment-65b14.web.app/",
-  },
-  {
-    id: 7, title: "MT-Mart",
-    desc: "Full-stack ecommerce with product listings, cart, and Supabase backend.",
-    tags: ["React", "Tailwind", "Node.js", "Supabase"],
-    img: "",
-    github: "https://github.com/malik-tanveer/mt-mart",
-    live: "",
-  },
-  {
-    id: 8, title: "Weather App",
-    desc: "Live weather dashboard with 7-day forecast and location search.",
-    tags: ["React", "TypeScript", "Tailwind", "OpenWeather API"],
-    img: "/weather-project.png",
-    github: "https://github.com/malik-tanveer/weather-app",
-    live: "https://weather-app-aykays.vercel.app/",
-  },
-  {
-    id: 9, title: "FutureStack",
-    desc: "Free project-based learning platform for full-stack, DSA, and Python automation.",
-    tags: ["React", "TypeScript", "Tailwind", "Express.js"],
-    img: "",
-    github: "https://github.com/malik-tanveer/MERN_Stack_Project",
-    live: "https://mern-stack-project-mu-three.vercel.app/",
-  },
+  }
 ];
 
-const INITIAL = 6;
+const INITIAL = 3;
 
 function Card({ p, i }) {
   const ref      = useRef(null);
