@@ -1,12 +1,13 @@
-import React from 'react'
 
-const page = ({ params }) => {
+
+const page = () => {
   return (
     <>
-    <div>
-      <h1>User Deatils Page</h1>
-      <p></p>
-    </div>
+    <div className="text-5xl font-bold  text-center">
+<br/>
+        User Page 
+<br />
+        </div>
     </>
   )
 }

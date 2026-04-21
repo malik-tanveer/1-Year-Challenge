@@ -1,15 +1,14 @@
-import React from 'react'
+ const page = async ( {params} ) => {
+  const { username } = await params;
 
-const page = ({ params }) => {
-    return (
-        <>
-            <div>
-                <h1>Usernames search</h1>
-
-                <p> Users Id {params.username} </p>
-            </div>
-        </>
-    )
+  return (
+    <>
+    <div>
+      <h1>Usernames search</h1>
+      <p>Users Id: {username}</p>
+    </div>
+</>
+  );
 }
 
 export default page;
