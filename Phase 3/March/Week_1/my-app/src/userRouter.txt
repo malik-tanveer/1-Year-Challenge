@@ -1,0 +1,139 @@
+Today is 21-4-2026
+
+useRouter();
+
+And I learn a Nextjs Start Now.
+
+And Topic is : Navigation | Use `Link`, `useRouter`, active nav states 
+
+
+I Complete Learn a Use Link
+
+Import Link from "next/link";
+
+<Link href="/" >Home </Link>
+
+Now Learn a useRouter is Our Main Topic
+
+How to use this
+
+You use a Btn and Write a top of file
+
+'use client'
+
+import { useRouter } from "next/navigation";
+
+
+const router = useRouter();
+return (
+<>
+<button
+    onClick={() => router.push("/")} >
+Go to Home Page
+</button>
+</>
+);
+
+
+USE ROUTER (Next.js) - HOW IT WORKS
+
+1. router.push()
+
+Purpose:
+- New page par navigate karna
+- Browser history me save hota hai
+
+Example:
+router.push("/about")
+
+Use case:
+- Login ke baad redirect
+- Button click navigation
+- Form submit ke baad page change
+
+Behavior:
+- Back button se user wapas aa sakta hai
+
+
+2. router.back()
+
+Purpose:
+- Previous page par jana
+
+Example:
+router.back()
+
+Use case:
+- Back button functionality
+- Custom back button in UI
+
+Behavior:
+- Same as browser "Back" button
+
+
+3. router.replace()
+
+Purpose:
+- Page change karna WITHOUT saving history
+
+Example:
+router.replace("/dashboard")
+
+Use case:
+- Login page → dashboard redirect
+- Unauthorized user redirect
+- Step skipping flows
+
+Behavior:
+- Back button se user wapas nahi ja sakta
+
+
+4. router.refresh()
+
+ Page ko re-fetch / reload (server data refresh) karta hai
+
+router.refresh();
+
+ Use case:
+
+* API se fresh data lana
+* DB update ke baad UI refresh
+
+ Example:
+
+await fetch("/api/save");
+router.refresh();
+
+
+ 5. router.prefetch()
+
+Page ko pehle se load kar deta hai (speed boost)
+
+router.prefetch("/about");
+
+### Use case:
+
+* hover pe page preload
+* faster navigation
+
+ Note: Next.js `<Link>` already auto-prefetch karta hai
+
+
+
+## 🔹 6. router.forward()
+
+👉 Next.js me rarely used (browser forward button jaisa)
+
+
+router.forward();
+
+
+| Method   | Use                |
+| -------- | ------------------ |
+| push     | go to page         |
+| back     | previous page      |
+| replace  | go without history |
+| refresh  | reload server data |
+| prefetch | speed optimization |
+| forward  | next history page  |
+

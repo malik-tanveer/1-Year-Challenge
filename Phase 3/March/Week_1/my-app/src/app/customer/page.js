@@ -3,11 +3,11 @@ const page = () => {
 
   return (
     <>
-    <div>
-      <h1>Customer  Page</h1>
+    <div class="text-center pt-10">
+      <h1 class="font-bold text-4xl">Customer</h1>
 
-      <p>
-        You See a Customer and you are a Shopkepper
+      <p class="text-lg ">
+        You See a Customer Page  and you are a Shopkepper
          </p>
     </div>
     </>
