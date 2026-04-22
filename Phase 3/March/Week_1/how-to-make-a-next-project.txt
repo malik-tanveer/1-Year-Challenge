@@ -1,0 +1,57 @@
+1. Prerequisites
+
+Ensure you have the following installed on your machine:
+
+Node.js: Version. Download it from the official Node.js website.
+
+Package Manager: npm (comes with Node), Yarn, pnpm. 
+
+2. Run the Installation Command
+
+Open your terminal, navigate to the folder where you want your project, and run:
+
+npx create-next-app@latest
+
+(Alternatively, use yarn create next-app, pnpm create next-app, or bunx create-next-app). 
+
+
+3. Configure Your Project
+
+The CLI will guide you through an interactive setup with several prompts: 
+
+Project Name: Enter a name for your project folder (e.g., my-next-app).
+
+TypeScript: Highly recommended for type safety (Yes/No).
+
+ESLint: For identifying and reporting on patterns in JavaScript (Yes/No).
+
+Tailwind CSS: A utility-first CSS framework for rapid UI development (Yes/No).
+
+src/ directory: Whether to put your application code in a src folder (Yes/No).
+
+App Router: The modern way to build Next.js apps using React Server Components (Yes/No - Recommended: Yes).
+
+Import Alias: Customize the default @/* alias for easier file imports (Yes/No). 
+
+4. Start the Development Server
+
+Once the installation finishes, move into your project directory and start the local server.
+
+cd your-project-name
+
+npm run dev (or yarn dev / pnpm dev / bun dev) 
+
+Your app will typically be available at
+
+http://localhost:3000. 
+
+> my-app@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.4:3000
+
+✓ Starting...
+
+
