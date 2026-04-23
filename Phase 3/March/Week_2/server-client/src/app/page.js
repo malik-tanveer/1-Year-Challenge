@@ -2,6 +2,11 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center font-sans ">
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white  sm:items-start">
+      
+      <h1 className="font-bold text-4xl">Home Page</h1>
+          <p className="max-w-md text-lg leading-8 ">
+This is a Home PAge of this app and today learn a Client Compoent and Server Component in Details and Leanr a New but Amazing
+            </p>
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black ">
             To get started, edit the page.js file.
