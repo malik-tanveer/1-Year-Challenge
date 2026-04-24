@@ -1,7 +1,9 @@
 import PostList from "@/component/PostList"
 
 export default async function page() {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=30");
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=10",{
+        cache : "no-store"        
+    });
     const posts = await res.json();
 
     return (
