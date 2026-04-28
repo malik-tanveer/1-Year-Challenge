@@ -13,7 +13,7 @@ import { NextResponse} from "next/server";
 export async function PUT(req, { params }) {
   await connectDB();
 
-  const { id } = params;
+  const { id } = await params;
   const body = await req.json();
 
   const updatedUser = await User.findByIdAndUpdate(
@@ -29,7 +29,7 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   await connectDB();
 
-  const { id } = params;
+  const { id } = await params;
 
   await User.findByIdAndDelete(id);
 

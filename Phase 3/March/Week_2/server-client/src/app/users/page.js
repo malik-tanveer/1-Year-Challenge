@@ -1,7 +1,7 @@
 import UserList from "@/component/UserList" 
 
 export default async function page() {
-    const res = await fetch("https://jsonplaceholder.typicode.com/users",{
+    const res = await fetch("http://localhost:3000/api/users",{
         cache: "force-cache"
     });
 
