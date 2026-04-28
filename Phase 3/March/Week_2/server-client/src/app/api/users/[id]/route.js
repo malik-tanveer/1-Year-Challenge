@@ -1,28 +1,37 @@
 // users dummy data
-let users = [
-    {id : 1, name : "Raza"},
-    {id : 2, name : "Usman"}
-]
+// let users = [
+//     {id : 1, name : "Raza"},
+//     {id : 2, name : "Usman"}
+// ]
+
+import { connectDB } from "@/lib/db";
+import User from "@/models/user";
+import { NextResponse} from "next/server";
 
 
-// Update Route Update the Data
-
+// UPDATE (PUT)
 export async function PUT(req, { params }) {
-    const { id } = params;
-    const userData = await req.json();
+  await connectDB();
 
-    const user = users.find((u) => u.id == id);
+  const { id } = params;
+  const body = await req.json();
 
-    if (user) {
-        user.name = userData.name;
-    }
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { name: body.name },
+    { new: true }
+  );
 
-    return Response.json(user);
+  return NextResponse.json(updatedUser);
 }
 
-// DELETE function del the user
-export async function DELETE(req,{params}){
-const  {id } = params;
-users = users.filter((u) => u.id != id);
-return Response.json({message : "User Deleted"})
+// DELETE
+export async function DELETE(req, { params }) {
+  await connectDB();
+
+  const { id } = params;
+
+  await User.findByIdAndDelete(id);
+
+  return NextResponse.json({ message: "User Deleted" });
 }

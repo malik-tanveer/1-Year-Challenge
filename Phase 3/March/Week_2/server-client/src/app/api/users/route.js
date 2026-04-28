@@ -1,26 +1,33 @@
 // Dummy user
 
-let users = [
-    {id : 1, name : "Raza"},
-    {id : 2, name : "Usman"}
-]
+// let users = [
+//     {id : 1, name : "Raza"},
+//     {id : 2, name : "Usman"}
+// ]
 
-// Get function Show all users
-export async function GET(){
-    return Response.json(users);
+
+import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/db";
+import User from "@/models/User";
+
+// GET the Data from MongoDB
+export async function GET() {
+  await connectDB();
+
+  const users = await User.find();
+
+  return NextResponse.json(users);
 }
 
-// Post function get the data from user
-export async function POST(req){
-    const userData = await req.json();
-    
-    const newUser = {
-        id: users.length + 1,
-        name: userData.name
-    };
-    
-    users.push(newUser);
-    
-    return Response.json(newUser, { status: 201 });
+// POST Save the databse
+export async function POST(req) {
+  await connectDB();
 
+  const body = await req.json();
+
+  const newUser = await User.create({
+    name: body.name,
+  });
+
+  return NextResponse.json(newUser, { status: 201 });
 }
