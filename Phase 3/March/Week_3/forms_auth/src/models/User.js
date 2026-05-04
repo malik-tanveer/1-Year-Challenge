@@ -1,4 +1,4 @@
-import mongoose from "mogoose";
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -17,10 +17,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 6
-    },
-     createdAt: {
-        type: Date,
-        default: Date.now
     }
 }, {
     timestamps: true
