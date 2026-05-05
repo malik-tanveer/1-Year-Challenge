@@ -10,20 +10,24 @@ export default function Login() {
 
         const formData = new FormData(e.target);
 
+
         const res = await fetch("/api/auth/login", {
-            method : "POST",
-            headers : {
-                 "Content-Type": "application/json",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email : formData.get("email"),
-                password : formData.get("password"),
+                email: formData.get("email"),
+                password: formData.get("password"),
             }),
         });
 
         const data = await res.json();
-        
+
         if (res.ok) {
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+            console.log(data.user)
             alert("Login Success");
 
             router.push("/dashboard");
@@ -60,6 +64,17 @@ export default function Login() {
                     <button className="bg-blue-500 text-white w-full py-2 rounded">
                         Login
                     </button>
+
+                    <p className="text-sm text-center mt-4">
+                        I am New {" "}
+                        <span
+                            className="text-blue-500 cursor-pointer"
+                            onClick={() => router.push("/signup")}
+                        >
+                            Signup
+                        </span>
+                    </p>
+
                 </form>
 
             </div>

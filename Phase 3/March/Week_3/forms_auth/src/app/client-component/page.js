@@ -1,10 +1,14 @@
+"use client";
+
+import ProtectedRoute from "@/components/ProtectedRoute"
 import Hero from "@/components/Hero"
 import Toggle from "@/components/Toggle"
 import Count from "@/components/Count"
 
 export default function ClientComponentPage() {
   return (
-    <div className="min-h-screen bg-gray-100 p-12">
+<ProtectedRoute>
+<div className="min-h-screen bg-gray-100 p-12">
 
       {/* Grid Layout */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -35,5 +39,6 @@ export default function ClientComponentPage() {
 
       </div>
     </div>
+    </ProtectedRoute>
   );
 }

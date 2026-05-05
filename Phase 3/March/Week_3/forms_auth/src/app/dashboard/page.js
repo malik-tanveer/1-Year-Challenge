@@ -1,9 +1,15 @@
+"use client";
+
+import ProtectedRoute from "@/components/ProtectedRoute"
+
 export default function dashboard() {
     return (
-        <>
-        <h1 className="font-bold text-4xl">
-            dashboard
-            </h1>
-            </>
+        <ProtectedRoute>
+            <div className="text-center mt-20">
+                <h1 className="text-4xl font-bold">
+                    Welcome to Dashboard 🎉
+                </h1>
+            </div>
+        </ProtectedRoute>
     )
 }
