@@ -16,3 +16,10 @@ posts. It includes features such as user authentication, post creation and editi
 - Frontend: Next.js, React, Tailwind CSS, Shadcn
 - Backend: Node.js, Express.js
 - Database: MongoDB
+- Authentication: JWT (JSON Web Tokens)
+- Deployment: Vercel (Frontend), Heroku (Backend)
+## Setup Instructions
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (local or cloud instance)
+- Git
