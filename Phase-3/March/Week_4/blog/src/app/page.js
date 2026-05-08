@@ -1,13 +1,18 @@
+'use client'
+import ProtectedRoute from "@/components/ProtectedRoute"
+
 
 export default function Home() {
   return (
-<>
-<h1 className="font-bold text4xl">
+    <>
+      <ProtectedRoute>
+        <h1 className="font-bold text4xl">
 
-  Blog Home page
+          Blog Home page
 
-  </h1>
-</>
+        </h1>
+      </ProtectedRoute>
+    </>
 
   );
 }

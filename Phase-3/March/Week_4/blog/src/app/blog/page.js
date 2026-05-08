@@ -1,11 +1,12 @@
 'use client'
+
 import ProtectedRoute from "@/components/ProtectedRoute"
 import React from 'react'
 
 const page = () => {
   return (
     <ProtectedRoute>
-      <div>Help</div>
+      <div>Blog</div>
     </ProtectedRoute>
   )
 }

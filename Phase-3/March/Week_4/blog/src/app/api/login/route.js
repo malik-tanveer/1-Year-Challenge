@@ -1,6 +1,6 @@
 // Login or backend
 
-import { connectDB }  from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
 export async function POST(req) {
@@ -10,22 +10,27 @@ export async function POST(req) {
         const body = await req.json();
 
         const user = await User.findOne({
-            email : body.email,
-            password : body.password,
+            email: body.email,
+            password: body.password,
         });
 
         if (!user) {
             return Response.json(
-                {message : "Invalid credentials"},
-                {status : 401}
-            );
+                { message: "User not found" },
+                { status: 404 });
+        }
+
+        if (user.password !== body.password) {
+            return Response.json(
+                { message: "Wrong password" },
+            { status: 401 });
         }
 
         return Response.json({
-            message : "Login Success",
+            message: "Login Success",
             user,
         });
- 
+
     } catch (err) {
         console.log(err);
         return Response.json({ message: "Internal Server Error" }, { status: 500 });

@@ -1,6 +1,6 @@
 // Register Route for register the user in database
 
-import { connectDB }  from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
 export async function POST(req) {
@@ -9,18 +9,31 @@ export async function POST(req) {
 
         const body = await req.json();
 
+        const existingUser = await User.findOne({ email: body.email });
+
+        if (existingUser) {
+            return Response.json(
+                { message: "User already exists" },
+                { status: 400 }
+            );
+        }
+
         const user = await User.create({
-            name : body.name,
-            email : body.email,
-            password : body.password,
+            name: body.name,
+            email: body.email,
+            password: body.password,
         });
 
         return Response.json({
-            message : "User created Successfully",
+            message: "User created successfully",
             user,
-        })
-    } catch(error) {
+        });
+
+    } catch (error) {
         console.log(error)
-        return Response.json({ message: "Internal Server Error" }, { status: 500 })
+        return Response.json(
+            { message: "Internal Server Error" },
+            { status: 500 }
+        )
     }
 }
