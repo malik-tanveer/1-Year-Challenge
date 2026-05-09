@@ -2,6 +2,7 @@
 
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
     try {
@@ -15,24 +16,26 @@ export async function POST(req) {
         });
 
         if (!user) {
-            return Response.json(
+            return NextResponse.json(
                 { message: "User not found" },
                 { status: 404 });
         }
 
         if (user.password !== body.password) {
-            return Response.json(
+            return NextResponse.json(
                 { message: "Wrong password" },
-            { status: 401 });
+                { status: 401 });
         }
 
-        return Response.json({
+        return NextResponse.json({
             message: "Login Success",
             user,
         });
 
     } catch (err) {
         console.log(err);
-        return Response.json({ message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json(
+            { message: "Internal Server Error" },
+            { status: 500 });
     }
 }

@@ -1,6 +1,7 @@
 // Register Route for register the user in database
 
 import { connectDB } from "@/lib/db";
+import { NextResponse } from "next/server";
 import User from "@/models/User";
 
 export async function POST(req) {
@@ -12,7 +13,7 @@ export async function POST(req) {
         const existingUser = await User.findOne({ email: body.email });
 
         if (existingUser) {
-            return Response.json(
+            return NextResponse.json(
                 { message: "User already exists" },
                 { status: 400 }
             );
@@ -24,14 +25,14 @@ export async function POST(req) {
             password: body.password,
         });
 
-        return Response.json({
+        return NextResponse.json({
             message: "User created successfully",
             user,
         });
 
     } catch (error) {
         console.log(error)
-        return Response.json(
+        return NextResponse.json(
             { message: "Internal Server Error" },
             { status: 500 }
         )
