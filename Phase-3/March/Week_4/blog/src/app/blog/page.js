@@ -1,42 +1,174 @@
 // app/blog/page.js
-import Link from 'next/link';
 
-export default async function Blog() {
-  const res = await fetch('http://localhost:3000/api/posts', { cache: 'no-store' });
+import Link from "next/link";
+import {
+  BookOpen,
+  ArrowRight,
+  Sparkles,
+  User,
+  CalendarDays,
+} from "lucide-react";
+
+export default async function BlogPage() {
+  const res = await fetch("http://localhost:3000/api/posts", {
+    cache: "no-store",
+  });
+
   const posts = await res.json();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-4 italic">Our Archive</h1>
-          <p className="text-gray-600">Explore all our stories, tutorials, and insights.</p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
 
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <Link href={`/blog/${post.slug}`} key={post._id} className="group">
-              <article className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-                <div className="h-52 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
-                  {post.title.charAt(0)}
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <h2 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-3">
-                    {post.title}
-                  </h2>
-                  <p className="text-gray-600 line-clamp-3 mb-4 flex-1">
-                    {post.content}
-                  </p>
-                  <div className="pt-4 border-t flex justify-between items-center text-sm font-medium">
-                    <span className="text-gray-500">By {post.author}</span>
-                    <span className="text-blue-600">Read Article →</span>
-                  </div>
-                </div>
-              </article>
-            </Link>
-          ))}
+      {/* HERO SECTION */}
+      <section className="relative overflow-hidden">
+
+        <div className="absolute top-0 left-0 w-72 h-72 bg-blue-400 opacity-20 blur-3xl rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-400 opacity-20 blur-3xl rounded-full"></div>
+
+        <div className="max-w-7xl mx-auto px-6 py-24 relative z-10 text-center">
+
+          <div className="inline-flex items-center gap-2 bg-white border border-blue-200 shadow-sm px-5 py-2 rounded-full text-sm font-medium text-blue-700 mb-8">
+            <Sparkles className="w-4 h-4" />
+            Modern Developer Blogs
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-black text-gray-900 leading-tight">
+            Explore Our
+            <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Blog Archive
+            </span>
+          </h1>
+
+          <p className="mt-8 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            Tutorials, coding tips, and full-stack development insights.
+          </p>
+
         </div>
-      </div>
+      </section>
+
+      {/* BLOG GRID */}
+      <section className="pb-28">
+
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="mb-14 text-center">
+
+            <h2 className="text-4xl font-black text-gray-900">
+              Latest Articles
+            </h2>
+
+            <p className="mt-3 text-gray-600 text-lg">
+              Explore all stories and developer insights.
+            </p>
+
+          </div>
+
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+
+            {posts.map((post, index) => (
+
+              <Link
+                href={`/blog/${post.slug}`}   
+                key={post._id}
+                className="group"
+              >
+
+                <article className="bg-white rounded-[32px] overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100 h-full flex flex-col hover:-translate-y-2">
+
+                  {/* THUMBNAIL */}
+                  {/* <div className="h-60 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-7xl font-black text-white">
+                    {post.title.charAt(0)}
+                  </div> */}
+
+                  {/* CONTENT */}
+                  <div className="p-8 flex flex-col flex-1">
+
+                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-5">
+                      <CalendarDays className="w-4 h-4" />
+                      <span>Developer Article</span>
+                    </div>
+
+                    <h2 className="text-3xl font-black text-gray-900 group-hover:text-blue-600 transition mb-4 leading-tight">
+                      {post.title}
+                    </h2>
+
+                    <p className="text-gray-600 leading-relaxed line-clamp-4 mb-8 flex-1">
+                      {post.content}
+                    </p>
+
+                    {/* FOOTER */}
+                    <div className="pt-6 border-t border-gray-100 flex items-center justify-between">
+
+                      <div className="flex items-center gap-3">
+
+                        <div className="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
+                          {post.author?.charAt(0)}
+                        </div>
+
+                        <div>
+                          <p className="font-bold text-gray-900 text-sm">
+                            {post.author}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Blog Author
+                          </p>
+                        </div>
+
+                      </div>
+  <div className="flex items-center gap-4">
+
+    {/* READ MORE */}
+    <div className="text-blue-600 font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
+      Read More
+      <ArrowRight className="w-4 h-4" />
+    </div>
+
+    {/* ✏️ EDIT BUTTON */}
+    <Link
+      href={`/edit-post/${post.slug}`}
+      className="text-green-600 font-bold hover:underline flex items-center gap-1"
+    >
+      Edit
+    </Link>
+
+  </div>
+
+                    </div>
+
+                  </div>
+
+                </article>
+
+              </Link>
+
+            ))}
+
+          </div>
+
+          {/* EMPTY STATE */}
+          {posts.length === 0 && (
+            <div className="bg-white rounded-[40px] shadow-xl border border-gray-100 p-16 text-center mt-10">
+
+              <BookOpen className="w-20 h-20 text-blue-600 mx-auto mb-8" />
+
+              <h2 className="text-4xl font-black text-gray-900 mb-5">
+                No Blogs Found
+              </h2>
+
+              <p className="text-lg text-gray-600 mb-10">
+                Start creating your first blog post.
+              </p>
+
+              <Link
+                href="/dashboard/create-post"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-bold hover:scale-105 transition"
+              >
+                Create First Blog
+              </Link>
+          </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
