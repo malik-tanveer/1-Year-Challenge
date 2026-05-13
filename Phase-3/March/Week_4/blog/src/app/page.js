@@ -8,9 +8,7 @@ import {
   Shield,
   MessageCircle,
   ArrowRight,
-  Sparkles,
-  HelpCircle,
-  Info,
+  Sparkles
 } from "lucide-react";
 
 export default async function Home() {
@@ -71,21 +69,6 @@ export default async function Home() {
                 Explore Blogs
               </Link>
 
-              <Link
-                href="/about"
-                className="bg-purple-600 text-white px-8 py-4 rounded-2xl font-semibold hover:bg-purple-700 transition flex items-center gap-2"
-              >
-                <Info className="w-5 h-5" />
-                About
-              </Link>
-
-              <Link
-                href="/help"
-                className="bg-pink-600 text-white px-8 py-4 rounded-2xl font-semibold hover:bg-pink-700 transition flex items-center gap-2"
-              >
-                <HelpCircle className="w-5 h-5" />
-                Help
-              </Link>
 
             </div>
 
@@ -246,7 +229,7 @@ export default async function Home() {
                     </div>
 
                     <Link
-                      href={`/blog/${post._id}`}
+                      href={`/blog/${post.slug}`}
                       className="text-blue-600 font-semibold hover:underline"
                     >
                       Read More

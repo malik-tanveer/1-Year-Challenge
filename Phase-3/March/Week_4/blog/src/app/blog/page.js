@@ -21,7 +21,6 @@ export default async function BlogPage() {
 
       {/* HERO SECTION */}
       <section className="relative overflow-hidden">
-
         <div className="absolute top-0 left-0 w-72 h-72 bg-blue-400 opacity-20 blur-3xl rounded-full"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-400 opacity-20 blur-3xl rounded-full"></div>
 
@@ -42,104 +41,95 @@ export default async function BlogPage() {
           <p className="mt-8 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             Tutorials, coding tips, and full-stack development insights.
           </p>
-
         </div>
       </section>
 
       {/* BLOG GRID */}
       <section className="pb-28">
-
         <div className="max-w-7xl mx-auto px-6">
 
           <div className="mb-14 text-center">
-
             <h2 className="text-4xl font-black text-gray-900">
               Latest Articles
             </h2>
-
             <p className="mt-3 text-gray-600 text-lg">
               Explore all stories and developer insights.
             </p>
-
           </div>
 
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
 
             {posts.map((post, index) => (
 
-              <Link
-                href={`/blog/${post.slug}`}   
+              <article
                 key={post._id}
-                className="group"
+                className="bg-white rounded-[32px] overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100 flex flex-col hover:-translate-y-2"
               >
 
-                <article className="bg-white rounded-[32px] overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100 h-full flex flex-col hover:-translate-y-2">
+                {/* TOP INFO */}
+                <div className="p-6 flex flex-col flex-1">
 
-                  {/* THUMBNAIL */}
-                  {/* <div className="h-60 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-7xl font-black text-white">
-                    {post.title.charAt(0)}
-                  </div> */}
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-5">
+                    <CalendarDays className="w-4 h-4" />
+                    <span>Developer Article</span>
+                  </div>
+
+                  {/* TITLE */}
+                  <h2 className="text-2xl font-black text-gray-900 mb-4 leading-tight">
+                    {post.title}
+                  </h2>
 
                   {/* CONTENT */}
-                  <div className="p-8 flex flex-col flex-1">
+                  <p className="text-gray-600 leading-relaxed line-clamp-3 mb-6 flex-1">
+                    {post.content}
+                  </p>
 
-                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-5">
-                      <CalendarDays className="w-4 h-4" />
-                      <span>Developer Article</span>
+                  {/* FOOTER */}
+                  <div className="pt-6 border-t border-gray-100 flex items-center justify-between">
+
+                    {/* AUTHOR */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
+                        {post.author?.charAt(0)}
+                      </div>
+
+                      <div>
+                        <p className="font-bold text-gray-900 text-sm">
+                          {post.author}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Blog Author
+                        </p>
+                      </div>
                     </div>
 
-                    <h2 className="text-3xl font-black text-gray-900 group-hover:text-blue-600 transition mb-4 leading-tight">
-                      {post.title}
-                    </h2>
+                    {/* ACTIONS */}
+                    <div className="flex items-center gap-4">
 
-                    <p className="text-gray-600 leading-relaxed line-clamp-4 mb-8 flex-1">
-                      {post.content}
-                    </p>
+                      {/* READ MORE */}
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="text-blue-600 font-bold flex items-center gap-2 hover:gap-3 transition-all"
+                      >
+                        Read More
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
 
-                    {/* FOOTER */}
-                    <div className="pt-6 border-t border-gray-100 flex items-center justify-between">
-
-                      <div className="flex items-center gap-3">
-
-                        <div className="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
-                          {post.author?.charAt(0)}
-                        </div>
-
-                        <div>
-                          <p className="font-bold text-gray-900 text-sm">
-                            {post.author}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            Blog Author
-                          </p>
-                        </div>
-
-                      </div>
-  <div className="flex items-center gap-4">
-
-    {/* READ MORE */}
-    <div className="text-blue-600 font-bold flex items-center gap-2 group-hover:gap-3 transition-all">
-      Read More
-      <ArrowRight className="w-4 h-4" />
-    </div>
-
-    {/* ✏️ EDIT BUTTON */}
-    <Link
-      href={`/edit-post/${post.slug}`}
-      className="text-green-600 font-bold hover:underline flex items-center gap-1"
-    >
-      Edit
-    </Link>
-
-  </div>
+                      {/* EDIT */}
+                      <Link
+                        href={`/dashboard/edit-post/${post.slug}`}
+                        className="text-green-600 font-bold hover:underline"
+                      >
+                        Edit
+                      </Link>
 
                     </div>
 
                   </div>
 
-                </article>
+                </div>
 
-              </Link>
+              </article>
 
             ))}
 
@@ -165,10 +155,13 @@ export default async function BlogPage() {
               >
                 Create First Blog
               </Link>
-          </div>
+
+            </div>
           )}
+
         </div>
       </section>
+
     </div>
   );
 }
