@@ -171,7 +171,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="#"
+                href="github.com/malik-tanveer"
                 className="flex items-center gap-3 text-gray-400 hover:text-white transition"
               >
                 {/* <Github className="w-5 h-5" /> */}

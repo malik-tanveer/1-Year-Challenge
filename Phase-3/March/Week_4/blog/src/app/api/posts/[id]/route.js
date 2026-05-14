@@ -54,7 +54,6 @@ export async function PUT(req, context) {
       {
         title: body.title,
         content: body.content,
-        slug: body.title.toLowerCase().replaceAll(" ", "-"),
       },
 
       { new: true }
