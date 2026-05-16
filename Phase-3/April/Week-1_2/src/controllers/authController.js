@@ -1,11 +1,10 @@
 import User from "../models/User.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import jwt from "jsonwebtoken";
-
 import dotenv from "dotenv";
 dotenv.config();
 
-// Generate JWT Token
+// Generate JWT Token and Used a Login and Register Route
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRY || "7d",
@@ -86,31 +85,12 @@ export const register = asyncHandler(async (req, res) => {
 });
 
 
-// Get Profile middleware/controller
+// GET Profile
 export const getProfile = asyncHandler(async (req, res) => {
-  // Expect Authorization: Bearer <token>
-  const authHeader = req.headers.authorization || req.headers.Authorization;
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Unauthorized: No token provided" });
-  }
 
-  const token = authHeader.split(" ")[1];
-  let decoded;
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (err) {
-    return res.status(401).json({ message: "Unauthorized: Invalid token" });
-  }
-
-  const user = await User.findById(decoded.id).select("name email role createdAt");
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-
-  // Do NOT expose password
   res.status(200).json({
     success: true,
-    user,
+    user: req.user,
   });
-});
 
+});

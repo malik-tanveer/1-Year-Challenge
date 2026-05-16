@@ -1,33 +1,42 @@
+// src/server.js
+
 import dotenv from "dotenv";
 import cors from "cors";
-import DBconnect from "./config/db.js"
+import express from "express";
 import morgan from "morgan";
-import errorMiddleware from "./middlewares/errorMiddleware.js";
+import DBconnect from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import express from "express";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
 
-// .ENV Keys
-dotenv.config();  
+// ENV
+dotenv.config();
 
-// DB Connect
+// DB
 DBconnect();
 
+// App initalize and PORT
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Middlewares
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
+// Routes
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
-app.use(errorMiddleware);
 
+// Health Check
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+// Error Middleware
+app.use(errorMiddleware);
+
+// Server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
