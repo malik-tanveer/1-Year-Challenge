@@ -1,31 +1,49 @@
 import Product from "../models/Product.js";
+import asyncHandler from "../middlewares/asyncHandler.js";
 
 
 // CREATE PRODUCT
-export const createProduct = async (req, res) => {
-  try {
+export const createProduct = asyncHandler(
+  async (req, res) => {
 
-    const product = await Product.create(req.body);
+    const {
+      title,
+      price,
+      description,
+      image,
+    } = req.body;
+
+    // VALIDATION
+    if (
+      !title ||
+      !price ||
+      !description ||
+      !image
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill all fields",
+      });
+    }
+
+    const product = await Product.create({
+      title,
+      price,
+      description,
+      image,
+    });
 
     res.status(201).json({
       success: true,
       product,
     });
-
-  } catch (error) {
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-
   }
-};
+);
 
 
-// GET ALL PRODUCTS
-export const getProducts = async (req, res) => {
-  try {
+// GET PRODUCTS
+export const getProducts = asyncHandler(
+  async (req, res) => {
 
     const products = await Product.find();
 
@@ -33,23 +51,17 @@ export const getProducts = async (req, res) => {
       success: true,
       products,
     });
-
-  } catch (error) {
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-
   }
-};
+);
 
 
 // GET SINGLE PRODUCT
-export const getSingleProduct = async (req, res) => {
-  try {
+export const getSingleProduct = asyncHandler(
+  async (req, res) => {
 
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(
+      req.params.id
+    );
 
     if (!product) {
       return res.status(404).json({
@@ -62,21 +74,13 @@ export const getSingleProduct = async (req, res) => {
       success: true,
       product,
     });
-
-  } catch (error) {
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-
   }
-};
+);
 
 
 // UPDATE PRODUCT
-export const updateProduct = async (req, res) => {
-  try {
+export const updateProduct = asyncHandler(
+  async (req, res) => {
 
     const product = await Product.findByIdAndUpdate(
       req.params.id,
@@ -97,23 +101,17 @@ export const updateProduct = async (req, res) => {
       success: true,
       product,
     });
-
-  } catch (error) {
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-
   }
-};
+);
 
 
 // DELETE PRODUCT
-export const deleteProduct = async (req, res) => {
-  try {
+export const deleteProduct = asyncHandler(
+  async (req, res) => {
 
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findByIdAndDelete(
+      req.params.id
+    );
 
     if (!product) {
       return res.status(404).json({
@@ -126,13 +124,5 @@ export const deleteProduct = async (req, res) => {
       success: true,
       message: "Product Deleted Successfully",
     });
-
-  } catch (error) {
-
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-
   }
-};
+);

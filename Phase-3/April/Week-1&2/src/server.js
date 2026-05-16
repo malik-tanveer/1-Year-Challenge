@@ -2,10 +2,15 @@ import dotenv from "dotenv";
 import cors from "cors";
 import DBconnect from "./config/db.js"
 import morgan from "morgan";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
 import productRoutes from "./routes/productRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import express from "express";
 
-dotenv.config();        
+// .ENV Keys
+dotenv.config();  
+
+// DB Connect
 DBconnect();
 
 const app = express();
@@ -15,17 +20,14 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
-app.get("/", (req, res) => {
-  res.json({
-    message: "Backend Server Running",
-  })
-});
-
 app.use("/api/products", productRoutes);
+app.use("/api/auth", authRoutes);
+app.use(errorMiddleware);
+
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
