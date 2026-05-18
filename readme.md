@@ -11,7 +11,7 @@
 
 ---
 
-## *Updated Phase-Based 1-Year Roadmap (Starting 1 August 2025)*
+# *Updated Phase-Based 1-Year Roadmap (Starting 1 August 2025)*
 
 
 ### 🔹 *Phase 1: React Advanced + Web Skills (Aug–Oct)*
