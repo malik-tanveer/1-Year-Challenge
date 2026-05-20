@@ -1,7 +1,7 @@
 
 ---
 
-# 🔵 **APRIL — Full Stack MERN + Next.js (Clean & Realistic Roadmap)**
+# **APRIL — Full Stack MERN + Next.js (Clean & Realistic Roadmap)**
 
 **Goal:** Ecommerce Full Stack App (Production-style structure)
 
