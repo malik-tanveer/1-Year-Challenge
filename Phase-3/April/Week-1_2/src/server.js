@@ -6,6 +6,7 @@ import express from "express";
 import morgan from "morgan";
 import DBconnect from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 
@@ -27,13 +28,13 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/orders", orderRoutes);
 
 // Health Check
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// Error Middleware
 app.use(errorMiddleware);
 
 // Server
