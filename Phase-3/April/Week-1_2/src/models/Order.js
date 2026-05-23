@@ -17,15 +17,10 @@ const orderSchema = new mongoose.Schema(
         },
         quantity: {
           type: Number,
-          default: 1,
+          required: true
         },
       },
     ],
-
-    totalPrice: {
-      type: Number,
-      required: true,
-    },
 
     status: {
       type: String,

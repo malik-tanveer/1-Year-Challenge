@@ -11,7 +11,6 @@ const router = express.Router();
 
 router.post("/", createProduct);
 router.get("/", getProducts);
-// GET single produt using ID
 router.get("/:id", getSingleProduct);
 router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
