@@ -1,3 +1,5 @@
+// controllers/productController.js
+
 import Product from "../models/Product.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 
@@ -11,6 +13,8 @@ export const createProduct = asyncHandler(
       price,
       description,
       image,
+      category,
+      stock,
     } = req.body;
 
     // VALIDATION
@@ -27,10 +31,12 @@ export const createProduct = asyncHandler(
     }
 
     const product = await Product.create({
-      title,
+      title: title.trim(),
       price,
-      description,
+      description: description.trim(),
       image,
+      category,
+      stock,
     });
 
     res.status(201).json({

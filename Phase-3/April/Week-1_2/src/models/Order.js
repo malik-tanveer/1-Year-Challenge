@@ -1,3 +1,5 @@
+// models/Order.js
+
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
@@ -15,12 +17,35 @@ const orderSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
+
+        title: {
+          type: String,
+          required: true,
+        },
+
+        price: {
+          type: Number,
+          required: true,
+        },
+
+        image: {
+          type: String,
+          required: true,
+        },
+
         quantity: {
           type: Number,
-          required: true
+          required: true,
+          default: 1,
         },
       },
     ],
+
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
 
     status: {
       type: String,
@@ -28,7 +53,9 @@ const orderSchema = new mongoose.Schema(
       default: "pending",
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 const Order = mongoose.model("Order", orderSchema);
