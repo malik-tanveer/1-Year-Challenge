@@ -17,7 +17,6 @@ export const createProduct = asyncHandler(
       stock,
     } = req.body;
 
-    // VALIDATION
     if (
       !title ||
       !price ||
@@ -46,7 +45,6 @@ export const createProduct = asyncHandler(
   }
 );
 
-
 // GET PRODUCTS
 export const getProducts = asyncHandler(
   async (req, res) => {
@@ -59,7 +57,6 @@ export const getProducts = asyncHandler(
     });
   }
 );
-
 
 // GET SINGLE PRODUCT
 export const getSingleProduct = asyncHandler(
@@ -82,7 +79,6 @@ export const getSingleProduct = asyncHandler(
     });
   }
 );
-
 
 // UPDATE PRODUCT
 export const updateProduct = asyncHandler(
@@ -110,7 +106,6 @@ export const updateProduct = asyncHandler(
   }
 );
 
-
 // DELETE PRODUCT
 export const deleteProduct = asyncHandler(
   async (req, res) => {
@@ -129,6 +124,7 @@ export const deleteProduct = asyncHandler(
     res.status(200).json({
       success: true,
       message: "Product Deleted Successfully",
+      product
     });
   }
 );

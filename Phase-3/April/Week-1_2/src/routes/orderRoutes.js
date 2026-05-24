@@ -1,7 +1,6 @@
 // routes/orderRoutes.js
 
 import express from "express";
-
 import {
   createOrder,
   updateOrder,
@@ -9,43 +8,14 @@ import {
   getMyOrders,
   getOrderById,
 } from "../controllers/orderController.js";
-
-import {
-  protect,
-} from "../middlewares/authMiddleware.js";
+import { protect } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-
-// USER ROUTES
-router.post(
-  "/",
-  protect,
-  createOrder
-);
-
-router.get(
-  "/",
-  protect,
-  getMyOrders
-);
-
-router.get(
-  "/:id",
-  protect,
-  getOrderById
-);
-
-router.put(
-  "/:id",
-  protect,
-  updateOrder
-);
-
-router.delete(
-  "/:id",
-  protect,
-  deleteOrder
-);
+router.post("/", protect, createOrder);
+router.get("/", getMyOrders);
+router.get("/:id",getOrderById);
+router.put("/:id", protect, updateOrder);
+router.delete("/:id", protect, deleteOrder);
 
 export default router;

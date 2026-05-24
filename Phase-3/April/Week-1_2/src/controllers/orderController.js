@@ -1,15 +1,12 @@
 // controllers/orderController.js
-
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
-
 
 // CREATE ORDER
 export const createOrder = async (req, res) => {
   try {
 
     const { products } = req.body;
-
     if (!products || products.length === 0) {
       return res.status(400).json({
         success: false,
@@ -57,7 +54,6 @@ export const createOrder = async (req, res) => {
 
       // STOCK REDUCE
       product.stock -= item.quantity;
-
       await product.save();
     }
 
@@ -88,9 +84,14 @@ export const createOrder = async (req, res) => {
 export const getMyOrders = async (req, res) => {
   try {
 
-    const orders = await Order.find({
-      user: req.user._id,
-    });
+    // Only login user order you see
+    // const orders = await Order.find({
+    //   user: req.user._id,
+    // });
+
+
+    // ALL ORDERS
+    const orders = await Order.find();
 
     res.status(200).json({
       success: true,
@@ -103,10 +104,8 @@ export const getMyOrders = async (req, res) => {
       success: false,
       message: error.message,
     });
-
   }
 };
-
 
 // GET SINGLE ORDER
 export const getOrderById = async (req, res) => {
@@ -122,7 +121,6 @@ export const getOrderById = async (req, res) => {
         message: "Order not found",
       });
     }
-
     // SECURITY CHECK
     if (
       order.user.toString() !==
@@ -140,15 +138,12 @@ export const getOrderById = async (req, res) => {
     });
 
   } catch (error) {
-
     res.status(500).json({
       success: false,
       message: error.message,
     });
-
   }
 };
-
 
 // UPDATE ORDER
 export const updateOrder = async (req, res) => {
@@ -175,7 +170,6 @@ export const updateOrder = async (req, res) => {
         message: "Not allowed",
       });
     }
-
     order.status =
       req.body.status || order.status;
 
@@ -192,7 +186,6 @@ export const updateOrder = async (req, res) => {
       success: false,
       message: error.message,
     });
-
   }
 };
 
@@ -236,6 +229,5 @@ export const deleteOrder = async (req, res) => {
       success: false,
       message: error.message,
     });
-
   }
 };
