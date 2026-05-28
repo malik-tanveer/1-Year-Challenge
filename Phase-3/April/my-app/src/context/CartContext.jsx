@@ -1,9 +1,51 @@
-import React from 'react'
+// CART CONTEXT
+"use client";
 
-const CartContext = () => {
+import {
+  createContext,
+  useContext,
+  useState,
+} from "react";
+
+const CartContext = createContext();
+
+export const CartProvider = ({
+  children,
+}) => {
+
+  const [cartItems, setCartItems] = useState([]);
+
+  // ADD TO CART
+  const addToCart = (product) => {
+
+    setCartItems((prev) => [
+      ...prev,
+      product,
+    ]);
+  };
+
+  // REMOVE
+  const removeFromCart = (id) => {
+
+    setCartItems((prev) =>
+      prev.filter(
+        (item) => item._id !== id
+      )
+    );
+  };
+
   return (
-    <div>CartContext</div>
-  )
-}
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+};
 
-export default CartContext
+export const useCart = () =>
+  useContext(CartContext);

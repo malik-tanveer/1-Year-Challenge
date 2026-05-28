@@ -1,9 +1,26 @@
-import React from 'react'
+"use client";
 
-const ProtectedRoute = () => {
-  return (
-    <div>ProtectedRoute</div>
-  )
-}
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+const ProtectedRoute = ({
+  children,
+}) => {
+
+  const router = useRouter();
+
+  useEffect(() => {
+
+    const token =
+      localStorage.getItem("token");
+
+    if (!token) {
+      router.push("/login");
+    }
+
+  }, []);
+
+  return children;
+};
 
 export default ProtectedRoute;
