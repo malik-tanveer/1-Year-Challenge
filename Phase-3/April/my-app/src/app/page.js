@@ -1,271 +1,274 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { 
+  ShoppingBag, 
+  Star, 
+  Truck, 
+  ShieldCheck, 
+  HelpCircle, 
+  ChevronDown, 
+  ArrowRight,
+  PackageX
+} from "lucide-react";
+import { getProducts } from "@/services/productService";
 
 export default function Home() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [openFaq, setOpenFaq] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await getProducts();
+        setProducts(data.products || []);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
   return (
-    <>
+    <div className="bg-white text-gray-900 min-h-screen font-sans">
+      
+      {/* 1. TOP ANNOUNCEMENT BAR & NAV LINKS */}
+      <div className="bg-black text-white text-xs py-2 text-center font-medium">
+        🎉 Free delivery on orders over $50! • ⚡ Fast Support 24/7
+      </div>
+      
+      <nav className="flex justify-center gap-8 py-4 border-b text-sm font-semibold text-gray-600 hover:text-gray-900 transition shadow-sm">
+        <Link href="/product" className="hover:text-blue-600 transition">Products</Link>
+        <Link href="/about" className="hover:text-blue-600 transition">About Us</Link>
+        <Link href="/contact" className="hover:text-blue-600 transition">Contact</Link>
+        <Link href="/help" className="hover:text-blue-600 transition">Help & Support</Link>
+      </nav>
 
-        <section className="py-10 bg-gray-100 sm:py-16 lg:py-24">
-            <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-                <div className="text-center">
-                    <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">Get full access to Celebration</h2>
-                    <p className="mt-4 text-2xl font-medium">130+ Hand Crafted Coded Blocks</p>
-
-                    <div className="flex flex-col items-center justify-center px-16 mt-8 space-y-4 sm:space-y-0 sm:space-x-4 sm:flex-row lg:mt-12 sm:px-0">
-                        <a href="#" title="" className="inline-flex items-center justify-center w-full px-8 py-4 text-base font-semibold text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-md sm:w-auto hover:bg-blue-700 focus:bg-blue-700" role="button"> Try For Free </a>
-
-                        <a href="#" title="" className="inline-flex items-center justify-center w-full px-8 py-4 text-base font-semibold text-black transition-all duration-200 bg-transparent border border-black rounded-md sm:w-auto hover:bg-black hover:text-white focus:bg-black focus:text-white" role="button">
-                            <svg className="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                            Contact Sales
-                        </a>
-                    </div>
-
-                    <p className="mt-6 text-base text-black">Already have an account? <a href="#" title="" className="text-blue-600 transition-all duration-200 hover:text-blue-700 focus:text-blue-700 hover:underline">Log in</a></p>
-                </div>
+      {/* 2. HERO SECTION */}
+      <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-blue-950 text-white py-20 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
+          <div className="space-y-6 text-left">
+            <span className="bg-blue-600 text-white text-xs uppercase px-3 py-1 rounded-full font-bold tracking-wider">
+              New Season Drop
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+              Build Your Dream Store <span className="text-blue-400">at Best Prices</span>
+            </h1>
+            <p className="text-lg text-gray-300 max-w-xl">
+              Modern Next.js Ecommerce Platform with premium gadgets, fashion, and lifestyle products. Fast delivery, secure payments, and trusted worldwide.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link href="/product" className="bg-white text-black hover:bg-gray-100 px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 shadow-lg transition transform hover:-translate-y-0.5">
+                Shop Now <ArrowRight size={18} />
+              </Link>
+              <Link href="/about" className="border border-gray-500 hover:border-white px-8 py-3.5 rounded-xl font-semibold transition bg-white/5 backdrop-blur-sm">
+                Learn More
+              </Link>
             </div>
-        </section>  
-        
-        {/* Testimnal */}
-
-          <section className="py-12 bg-gray-50 sm:py-16 lg:py-20">
-    <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center">
-            <div className="text-center">
-                <p className="text-lg font-medium text-gray-600 font-pj">2,157 people have said how good Rareblocks</p>
-                <h2 className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">Our happy clients say about us</h2>
-            </div>
-
-            <div className="mt-8 text-center md:mt-16 md:order-3">
-                <a href="#" title="" className="pb-2 text-base font-bold leading-7 text-gray-900 transition-all duration-200 border-b-2 border-gray-900 hover:border-gray-600 font-pj focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2 hover:text-gray-600"> Check all 2,157 reviews </a>
-            </div>
-
-            <div className="relative mt-10 md:mt-24 md:order-2">
-                <div className="absolute -inset-x-1 inset-y-16 md:-inset-x-2 md:-inset-y-6">
-                    {/* <div className="w-full h-full max-w-5xl mx-auto rounded-3xl opacity-30 blur-lg filter" style="background: linear-gradient(90deg, #44ff9a -0.55%, #44b0ff 22.86%, #8b44ff 48.36%, #ff6644 73.33%, #ebff70 99.34%)"></div> */}
-                </div>
-
-                <div className="relative grid max-w-lg grid-cols-1 gap-6 mx-auto md:max-w-none lg:gap-10 md:grid-cols-3">
-                    <div className="flex flex-col overflow-hidden shadow-xl">
-                        <div className="flex flex-col justify-between flex-1 p-6 bg-white lg:py-8 lg:px-7">
-                            <div className="flex-1">
-                                <div className="flex items-center">
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <blockquote className="flex-1 mt-8">
-                                    <p className="text-lg leading-relaxed text-gray-900 font-pj">“You made it so simple. My new site is so much faster and easier to work with than my old site. I just choose the page, make the change.”</p>
-                                </blockquote>
-                            </div>
-
-                            <div className="flex items-center mt-8">
-                                <img className="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-1.png" alt="" />
-                                <div className="ml-4">
-                                    <p className="text-base font-bold text-gray-900 font-pj">Leslie Alexander</p>
-                                    <p className="mt-0.5 text-sm font-pj text-gray-600">Freelance React Developer</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col overflow-hidden shadow-xl">
-                        <div className="flex flex-col justify-between flex-1 p-6 bg-white lg:py-8 lg:px-7">
-                            <div className="flex-1">
-                                <div className="flex items-center">
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <blockquote className="flex-1 mt-8">
-                                    <p className="text-lg leading-relaxed text-gray-900 font-pj">“Simply the best. Better than all the rest. I’d recommend this product to beginners and advanced users.”</p>
-                                </blockquote>
-                            </div>
-
-                            <div className="flex items-center mt-8">
-                                <img className="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-2.png" alt="" />
-                                <div className="ml-4">
-                                    <p className="text-base font-bold text-gray-900 font-pj">Jacob Jones</p>
-                                    <p className="mt-0.5 text-sm font-pj text-gray-600">Digital Marketer</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col overflow-hidden shadow-xl">
-                        <div className="flex flex-col justify-between flex-1 p-6 bg-white lg:py-8 lg:px-7">
-                            <div className="flex-1">
-                                <div className="flex items-center">
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                    <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <blockquote className="flex-1 mt-8">
-                                    <p className="text-lg leading-relaxed text-gray-900 font-pj">“I cannot believe that I have got a brand new landing page after getting Omega. It was super easy to edit and publish.”</p>
-                                </blockquote>
-                            </div>
-
-                            <div className="flex items-center mt-8">
-                                <img className="flex-shrink-0 object-cover rounded-full w-11 h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png" alt="" />
-                                <div className="ml-4">
-                                    <p className="text-base font-bold text-gray-900 font-pj">Jenny Wilson</p>
-                                    <p className="mt-0.5 text-sm font-pj text-gray-600">Graphic Designer</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 hidden md:block">
+            <img
+              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
+              alt="Premium Product Banner"
+              className="w-full h-[450px] object-cover hover:scale-105 transition duration-500"
+            />
+          </div>
         </div>
+      </section>
+
+      {/* 3. CORE FEATURES */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="p-6 border border-gray-100 rounded-2xl bg-gray-50/50 text-center hover:shadow-md transition">
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Truck size={24} />
+            </div>
+            <h3 className="font-bold text-lg mb-2">Fast & Free Delivery</h3>
+            <p className="text-gray-500 text-sm">Get products delivered within 24–48 hours anywhere with real-time tracking.</p>
+          </div>
+
+          <div className="p-6 border border-gray-100 rounded-2xl bg-gray-50/50 text-center hover:shadow-md transition">
+            <div className="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <ShieldCheck size={24} />
+            </div>
+            <h3 className="font-bold text-lg mb-2">Secure Payments</h3>
+            <p className="text-gray-500 text-sm">Fully encrypted and safe payment system supporting all major credit cards.</p>
+          </div>
+
+          <div className="p-6 border border-gray-100 rounded-2xl bg-gray-50/50 text-center hover:shadow-md transition">
+            <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Star size={24} />
+            </div>
+            <h3 className="font-bold text-lg mb-2">Top Quality Products</h3>
+            <p className="text-gray-500 text-sm">Curated items from verified global brands with 100% authenticity guarantee.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. PRODUCTS SECTION (WITH LOADING AND FALLBACK) */}
+      <section className="py-16 bg-gray-50 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex justify-between items-end mb-10">
+            <div>
+              <span className="text-blue-600 font-bold text-sm uppercase tracking-wider">Our Shop</span>
+              <h2 className="text-3xl md:text-4xl font-extrabold mt-1">🔥 Featured Products</h2>
+            </div>
+            <Link href="/product" className="text-blue-600 font-bold hover:underline flex items-center gap-1 text-sm">
+              See All Products <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          {/* LOADING STATE (SKELETON ANIMATION) */}
+          {loading && (
+            <div className="grid md:grid-cols-3 gap-8">
+              {[1, 2, 3].map((n) => (
+                <div key={n} className="border bg-white rounded-2xl p-4 animate-pulse space-y-4">
+                  <div className="bg-gray-200 h-48 w-full rounded-xl"></div>
+                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                  <div className="h-10 bg-gray-200 rounded-xl w-full"></div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* EMPTY / API ERROR STATE */}
+          {!loading && products.length === 0 && (
+            <div className="text-center py-12 bg-white rounded-3xl border border-dashed border-gray-300 max-w-md mx-auto p-8 shadow-sm">
+              <PackageX className="mx-auto text-gray-400 mb-4 animate-bounce" size={48} />
+              <h3 className="text-xl font-bold text-gray-700">No Products Found</h3>
+              <p className="text-gray-500 text-sm mt-2">
+                Hamein afsos hai, is waqt API se products nahi aa rahe hain. Please check back later ya dummy data add karein.
+              </p>
+              <button onClick={() => window.location.reload()} className="mt-5 bg-black text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-gray-800 transition">
+                Retry Fetching
+              </button>
+            </div>
+          )}
+
+          {/* REAL PRODUCTS GRID */}
+          {!loading && products.length > 0 && (
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+              {products.slice(0, 3).map((p) => (
+                <div key={p._id} className="group border bg-white rounded-2xl p-4 hover:shadow-xl transition duration-300 relative">
+                  <div className="overflow-hidden rounded-xl bg-gray-100 relative">
+                    <img 
+                      src={p.image || "https://images.unsplash.com/photo-1523275335684-37898b6baf30"} 
+                      alt={p.title}
+                      className="h-48 w-full object-cover group-hover:scale-105 transition duration-300" 
+                    />
+                  </div>
+                  <div className="mt-4 space-y-1">
+                    <h3 className="font-bold text-gray-800 text-lg line-clamp-1 group-hover:text-blue-600 transition">{p.title}</h3>
+                    <p className="text-xl font-black text-gray-900">${p.price}</p>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    <Link
+                      href={`/product/${p._id}`}
+                      className="text-center bg-gray-100 hover:bg-gray-200 text-gray-700 py-2.5 rounded-xl font-semibold text-sm transition"
+                    >
+                      View Details
+                    </Link>
+                    <button className="bg-black hover:bg-blue-600 text-white py-2.5 rounded-xl font-semibold text-sm transition shadow-sm">
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* 5. TESTIMONIALS */}
+      <section className="px-6 py-20 max-w-6xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-4">What Our Happy Customers Say</h2>
+        <p className="text-center text-gray-500 max-w-md mx-auto mb-12">Real reviews from verified accounts who absolutely love our platform.</p>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { name: "Ali Khan", text: "Amazing product quality and lightning-fast delivery service! Strongly recommended.", role: "Verified Buyer" },
+            { name: "Sara Ahmed", text: "The client support was amazing. Product is exactly as described on the store.", role: "Premium Member" },
+            { name: "Ahmed Raza", text: "Very smooth checkout process and sleek interface. Next.js speed is unmatched!", role: "Tech Enthusiast" }
+          ].map((t, i) => (
+            <div key={i} className="border border-gray-100 p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition">
+              <div className="flex text-yellow-400 mb-4">
+                {[...Array(5)].map((_, idx) => <Star key={idx} size={16} fill="currentColor" />)}
+              </div>
+              <p className="text-gray-600 italic">"{t.text}"</p>
+              <div className="mt-6 border-t pt-4">
+                <h4 className="font-bold text-gray-900">{t.name}</h4>
+                <span className="text-xs text-gray-400">{t.role}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 6. INTERACTIVE FAQ SECTION */}
+      <section className="bg-gray-50 py-20 px-6">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-3">
+              <HelpCircle size={24} />
+            </div>
+            <h2 className="text-3xl font-extrabold">Frequently Asked Questions</h2>
+            <p className="text-gray-500 mt-2">Aapke aam sawalaat ke tafseeli jawabaat yahan hain.</p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              { q: "How fast is the delivery process?", a: "Standard delivery takes 24–48 hours depending on your city location. Express shipping option is also available at checkout." },
+              { q: "Is my payment information secure?", a: "Yes, 100%. We use industry-standard SSL encryption and modern secure payment gateways like Stripe to protect your sensitive data." },
+              { q: "What is your return and refund policy?", a: "We offer a hassle-free 7-day money-back guarantee. If you are not satisfied with the product, you can request a return directly from your dashboard." }
+            ].map((faq, idx) => (
+              <div key={idx} className="bg-white border rounded-2xl overflow-hidden transition shadow-sm">
+                <button 
+                  onClick={() => toggleFaq(idx)}
+                  className="w-full flex justify-between items-center p-5 text-left font-bold text-gray-800 hover:bg-gray-50 transition"
+                >
+                  <span>{faq.q}</span>
+                  <ChevronDown size={18} className={`text-gray-500 transition-transform duration-300 ${openFaq === idx ? "rotate-180 text-blue-600" : ""}`} />
+                </button>
+                {openFaq === idx && (
+                  <div className="p-5 pt-0 text-gray-600 text-sm leading-relaxed border-t border-gray-50 bg-gray-50/50">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. CALL TO ACTION (CTA) */}
+      <section className="bg-black text-white text-center py-20 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-900/40 via-transparent to-transparent"></div>
+        <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Start Your Shopping Journey Today</h2>
+          <p className="text-gray-400 max-w-md mx-auto">
+            Join thousands of happy customers and experience premium shopping experience like never before.
+          </p>
+          <Link
+            href="/product"
+            className="mt-4 inline-block bg-white text-black hover:bg-gray-100 font-bold px-8 py-4 rounded-xl transition shadow-lg transform hover:scale-105"
+          >
+            Explore All Products
+          </Link>
+        </div>
+      </section>
+
     </div>
-</section>
-          
-          
-          {/*  team*/}
-           <section className="py-12 bg-white sm:py-16 lg:py-20">
-    <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">Our Investors & Board of Directors</h2>
-        </div>
-
-        <div className="grid max-w-6xl grid-cols-1 px-20 mx-auto mt-12 text-center sm:px-0 sm:grid-cols-2 md:mt-20 gap-x-8 md:grid-cols-4 gap-y-12 lg:gap-x-16 xl:gap-x-20">
-            <div>
-                <img className="object-cover w-32 h-32 mx-auto rounded-full lg:w-44 lg:h-44 grayscale filter" src="https://cdn.rareblocks.xyz/collection/clarity/images/team/1/team-member-1.png" alt="" />
-                <p className="mt-5 text-lg font-bold text-gray-900 sm:text-xl sm:mt-8 font-pj">Jerome Bell</p>
-                <p className="mt-2 text-base font-normal text-gray-600 font-pj">Co founder, Chairman, Executive Director</p>
-            </div>
-
-            <div>
-                <img className="object-cover w-32 h-32 mx-auto rounded-full lg:w-44 lg:h-44 grayscale filter" src="https://cdn.rareblocks.xyz/collection/clarity/images/team/1/team-member-2.png" alt="" />
-                <p className="mt-5 text-lg font-bold text-gray-900 sm:text-xl sm:mt-8 font-pj">Jerome Bell</p>
-                <p className="mt-2 text-base font-normal text-gray-600 font-pj">Co founder, Chairman, Executive Director</p>
-            </div>
-
-            <div>
-                <img className="object-cover w-32 h-32 mx-auto rounded-full lg:w-44 lg:h-44 grayscale filter" src="https://cdn.rareblocks.xyz/collection/clarity/images/team/1/team-member-3.png" alt="" />
-                <p className="mt-5 text-lg font-bold text-gray-900 sm:text-xl sm:mt-8 font-pj">Jerome Bell</p>
-                <p className="mt-2 text-base font-normal text-gray-600 font-pj">Co founder, Chairman, Executive Director</p>
-            </div>
-
-            <div>
-                <img className="object-cover w-32 h-32 mx-auto rounded-full lg:w-44 lg:h-44 grayscale filter" src="https://cdn.rareblocks.xyz/collection/clarity/images/team/1/team-member-4.png" alt="" />
-                <p className="mt-5 text-lg font-bold text-gray-900 sm:text-xl sm:mt-8 font-pj">Jerome Bell</p>
-                <p className="mt-2 text-base font-normal text-gray-600 font-pj">Co founder, Chairman, Executive Director</p>
-            </div>
-        </div>
-
-        <div className="mt-12 sm:mt-16">
-            <svg className="w-auto h-4 mx-auto text-gray-300" viewBox="0 0 172 16" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 11 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 46 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 81 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 116 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 151 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 18 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 53 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 88 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 123 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 158 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 25 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 60 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 95 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 130 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 165 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 32 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 67 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 102 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 137 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 172 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 39 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 74 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 109 1)" />
-                <line y1="-0.5" x2="18.0278" y2="-0.5" transform="matrix(-0.5547 0.83205 0.83205 0.5547 144 1)" />
-            </svg>
-        </div>
-
-        <div className="max-w-3xl mx-auto mt-12 space-y-8 sm:space-y-0 sm:flex sm:items-center sm:justify-center sm:mt-16 sm:gap-x-16">
-            <div>
-                <img className="w-auto mx-auto h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/team/1/logo-waverio.svg" alt="" />
-            </div>
-
-            <div>
-                <img className="w-auto mx-auto h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/team/1/logo-squarestone.svg" alt="" />
-            </div>
-
-            <div>
-                <img className="w-auto mx-auto h-11" src="https://cdn.rareblocks.xyz/collection/clarity/images/team/1/logo-creaty.svg" alt="" />
-            </div>
-        </div>
-    </div>
-</section>
-          </>
   );
 }

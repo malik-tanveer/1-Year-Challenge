@@ -1,26 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { getToken } from "@/utils/auth";
+import Loader from "./Loader"; // Importing your integrated loader component
 
-const ProtectedRoute = ({
-  children,
-}) => {
-
+export default function ProtectedRoute({ children }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
-    const token =
-      localStorage.getItem("token");
+    const token = getToken();
 
     if (!token) {
-      router.push("/login");
+      router.replace("/login");
+    } else {
+      setLoading(false);
     }
+  }, [router]);
 
-  }, []);
+  if (loading) {
+    return <Loader />; 
+  }
 
   return children;
-};
-
-export default ProtectedRoute;
+}
