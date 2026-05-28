@@ -8,7 +8,6 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controllers/productController.js";
-import { protect,  authorize} from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -18,8 +17,8 @@ router.get("/", getProducts);
 router.get("/:id", getSingleProduct);
 
 // ADMIN ROUTES
-router.post("/", protect,  authorize("admin"),createProduct);
-router.put("/:id", protect, authorize("admin"), updateProduct);
-router.delete("/:id", protect, authorize("admin"), deleteProduct);
+router.post("/", createProduct);
+router.put("/:id", updateProduct);
+router.delete("/:id", deleteProduct);
 
 export default router;

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ShoppingBag, ShoppingCart, User, LogOut, HelpCircle, BookOpen, Menu, X } from "lucide-react";
+import { ShoppingBag, ShoppingCart, User, LogOut, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -12,7 +12,28 @@ export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [cartCount, setCartCount] = useState(0); // Yeh global state se link ho jayega baad me
+  const [cartCount, setCartCount] = useState(0); 
+
+  // 🔥 CORE FLOW: SYNC CART UNIT TOTAL QUANTITIES DYNAMICALLY
+  useEffect(() => {
+    const calculateCartQuantity = () => {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const totalUnits = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+      setCartCount(totalUnits);
+    };
+
+    // Run once on load
+    calculateCartQuantity();
+
+    // Listeners for multi-page storage cross communication sync 
+    window.addEventListener("storage", calculateCartQuantity);
+    window.addEventListener("cartUpdated", calculateCartQuantity);
+
+    return () => {
+      window.removeEventListener("storage", calculateCartQuantity);
+      window.removeEventListener("cartUpdated", calculateCartQuantity);
+    };
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -26,7 +47,6 @@ export default function Navbar() {
     router.push("/login");
   };
 
-  // Sirf exact clean links jo aapko chahiye thay
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
@@ -49,7 +69,7 @@ export default function Navbar() {
             Shop<span className="text-blue-600">Smart</span>
           </Link>
 
-          {/* DESKTOP NAVIGATION (BILKUL SAF AUR SIMPLE) */}
+          {/* DESKTOP NAVIGATION */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -67,14 +87,14 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* ICONS ACTIONS (CART & PROFILE DROPDOWN) */}
+          {/* ICONS ACTIONS */}
           <div className="hidden md:flex items-center gap-4 relative">
             
-            {/* CART ICON WITH DYNAMIC COUNT */}
-            <Link href="/cart" className="p-2 text-gray-600 hover:text-black relative transition">
-              <ShoppingCart size={20} />
+            {/* CART ICON WITH DYNAMIC COUNT OVERLAY */}
+            <Link href="/cart" className="p-2 text-gray-600 hover:text-black relative transition group">
+              <ShoppingCart size={20} className="group-hover:scale-105 transition" />
               {cartCount > 0 && (
-                <span className="absolute top-1 right-1 bg-blue-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 bg-blue-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center animate-pulse shadow-md">
                   {cartCount}
                 </span>
               )}
@@ -89,7 +109,6 @@ export default function Navbar() {
                 <User size={18} />
               </button>
 
-              {/* DYNAMIC DROPDOWN PORTAL */}
               {isProfileOpen && (
                 <div className="cursor-pointer absolute right-0 mt-3 w-48 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50">
                   {isLoggedIn ? (
@@ -167,7 +186,6 @@ export default function Navbar() {
           <hr className="border-gray-100 my-2" />
           {isLoggedIn ? (
             <Link
-
               href="/profile"
               onClick={() => setIsMobileMenuOpen(false)}
               className="cursor-pointer block px-3 py-2.5 rounded-xl text-sm font-bold text-blue-600 bg-blue-50 uppercase tracking-wider"

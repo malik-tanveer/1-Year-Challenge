@@ -10,9 +10,14 @@ import {
   HelpCircle, 
   ChevronDown, 
   ArrowRight,
-  PackageX
+  PackageX,
+  Zap,
+  Bookmark,
+  Sparkles,
+  Info
 } from "lucide-react";
 import { getProducts } from "@/services/productService";
+import formatPrice from "@/utils/formatPrice"; 
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -40,147 +45,154 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white text-gray-900 min-h-screen font-sans">
+    <div className="bg-white text-gray-900 min-h-screen font-sans antialiased">
       
-      {/* 1. TOP ANNOUNCEMENT BAR & NAV LINKS */}
-      <div className="bg-black text-white text-xs py-2 text-center font-medium">
-        🎉 Free delivery on orders over $50! • ⚡ Fast Support 24/7
+      {/* 1. TOP PREMIUM ANNOUNCEMENT BAR */}
+      <div className="bg-gradient-to-r from-gray-950 via-blue-950 to-gray-950 text-white text-[11px] py-2.5 text-center font-bold uppercase tracking-widest border-b border-white/5 flex items-center justify-center gap-2 px-4">
+        <Sparkles size={12} className="text-blue-400 animate-pulse" /> 
+        Free delivery on orders over {formatPrice(50)}! • ⚡ Enterprise Operational Speed 24/7
       </div>
-      
-      <nav className="flex justify-center gap-8 py-4 border-b text-sm font-semibold text-gray-600 hover:text-gray-900 transition shadow-sm">
-        <Link href="/product" className="hover:text-blue-600 transition">Products</Link>
-        <Link href="/about" className="hover:text-blue-600 transition">About Us</Link>
-        <Link href="/contact" className="hover:text-blue-600 transition">Contact</Link>
-        <Link href="/help" className="hover:text-blue-600 transition">Help & Support</Link>
-      </nav>
 
-      {/* 2. HERO SECTION */}
-      <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-blue-950 text-white py-20 px-6">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
+      {/* 2. PREMIUM HERO MATRIX */}
+      <section className="relative bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950 text-white py-24 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:30px_30px]"></div>
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
+        
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-16 relative z-10">
           <div className="space-y-6 text-left">
-            <span className="bg-blue-600 text-white text-xs uppercase px-3 py-1 rounded-full font-bold tracking-wider">
-              New Season Drop
+            <span className="inline-flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs uppercase px-3 py-1.5 rounded-xl font-black tracking-widest">
+              <Zap size={12} fill="currentColor" /> System Core Drop v2.0
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-              Build Your Dream Store <span className="text-blue-400">at Best Prices</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+              Next-Gen Sourcing <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Marketplace</span>
             </h1>
-            <p className="text-lg text-gray-300 max-w-xl">
-              Modern Next.js Ecommerce Platform with premium gadgets, fashion, and lifestyle products. Fast delivery, secure payments, and trusted worldwide.
+            <p className="text-sm sm:text-base text-gray-400 max-w-xl leading-relaxed font-medium">
+              Curated architectural ecosystem housing elite gadget configurations, dynamic product parameters, and state-locked client pipelines. Optimized via Next.js 14 stack mechanics.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/product" className="bg-white text-black hover:bg-gray-100 px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 shadow-lg transition transform hover:-translate-y-0.5">
-                Shop Now <ArrowRight size={18} />
+            <div className="flex flex-wrap gap-4 pt-2">
+              <Link href="/products" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-blue-600/20 transition-all transform hover:-translate-y-0.5">
+                Explore Pipeline <ArrowRight size={14} />
               </Link>
-              <Link href="/about" className="border border-gray-500 hover:border-white px-8 py-3.5 rounded-xl font-semibold transition bg-white/5 backdrop-blur-sm">
-                Learn More
+              <Link href="/about" className="border border-gray-800 hover:border-gray-700 text-gray-300 px-8 py-4 rounded-xl font-black text-xs uppercase tracking-wider transition bg-white/5 backdrop-blur-sm">
+                Documentation
               </Link>
             </div>
           </div>
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 hidden md:block">
+          
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 hidden md:block bg-gray-900 group">
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent z-10 opacity-60"></div>
             <img
               src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
               alt="Premium Product Banner"
-              className="w-full h-[450px] object-cover hover:scale-105 transition duration-500"
+              className="w-full h-[460px] object-cover group-hover:scale-105 transition duration-700"
             />
           </div>
         </div>
       </section>
 
-      {/* 3. CORE FEATURES */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      {/* 3. COHESIVE SYSTEM TRUST LABELS */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-b border-gray-100">
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="p-6 border border-gray-100 rounded-2xl bg-gray-50/50 text-center hover:shadow-md transition">
-            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Truck size={24} />
+          <div className="p-6 bg-gray-50/60 border border-gray-100 rounded-2xl flex items-start gap-4">
+            <div className="w-10 h-10 bg-blue-50 border border-blue-100 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+              <Truck size={18} />
             </div>
-            <h3 className="font-bold text-lg mb-2">Fast & Free Delivery</h3>
-            <p className="text-gray-500 text-sm">Get products delivered within 24–48 hours anywhere with real-time tracking.</p>
+            <div>
+              <h3 className="font-black text-sm uppercase tracking-wide text-gray-900 mb-1">Global Node Dispatch</h3>
+              <p className="text-gray-500 text-xs leading-relaxed font-semibold">Consolidated freight protocols targeting 24–48 hour delivery matrix cycles.</p>
+            </div>
           </div>
 
-          <div className="p-6 border border-gray-100 rounded-2xl bg-gray-50/50 text-center hover:shadow-md transition">
-            <div className="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <ShieldCheck size={24} />
+          <div className="p-6 bg-gray-50/60 border border-gray-100 rounded-2xl flex items-start gap-4">
+            <div className="w-10 h-10 bg-green-50 border border-green-100 text-green-600 rounded-xl flex items-center justify-center shrink-0">
+              <ShieldCheck size={18} />
             </div>
-            <h3 className="font-bold text-lg mb-2">Secure Payments</h3>
-            <p className="text-gray-500 text-sm">Fully encrypted and safe payment system supporting all major credit cards.</p>
+            <div>
+              <h3 className="font-black text-sm uppercase tracking-wide text-gray-900 mb-1">Encrypted Pipelines</h3>
+              <p className="text-gray-500 text-xs leading-relaxed font-semibold">Tokenized secure transaction networks guaranteeing database protection modules.</p>
+            </div>
           </div>
 
-          <div className="p-6 border border-gray-100 rounded-2xl bg-gray-50/50 text-center hover:shadow-md transition">
-            <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Star size={24} />
+          <div className="p-6 bg-gray-50/60 border border-gray-100 rounded-2xl flex items-start gap-4">
+            <div className="w-10 h-10 bg-purple-50 border border-purple-100 text-purple-600 rounded-xl flex items-center justify-center shrink-0">
+              <Bookmark size={18} />
             </div>
-            <h3 className="font-bold text-lg mb-2">Top Quality Products</h3>
-            <p className="text-gray-500 text-sm">Curated items from verified global brands with 100% authenticity guarantee.</p>
+            <div>
+              <h3 className="font-black text-sm uppercase tracking-wide text-gray-900 mb-1">Verified Authenticity</h3>
+              <p className="text-gray-500 text-xs leading-relaxed font-semibold">100% genuine origin trace indices mapped direct from verified partner storage nodes.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4. PRODUCTS SECTION (WITH LOADING AND FALLBACK) */}
-      <section className="py-16 bg-gray-50 px-6">
+      {/* 4. PRODUCT INVENTORY STREAM */}
+      <section className="py-20 bg-gray-50/50 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="flex justify-between items-end mb-10">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-12">
             <div>
-              <span className="text-blue-600 font-bold text-sm uppercase tracking-wider">Our Shop</span>
-              <h2 className="text-3xl md:text-4xl font-extrabold mt-1">🔥 Featured Products</h2>
+              <span className="text-blue-600 font-black text-xs uppercase tracking-widest">Active Stock Ledger</span>
+              <h2 className="text-3xl font-black text-gray-900 mt-1 uppercase tracking-tight">🔥 Curated Inventory Drops</h2>
             </div>
-            <Link href="/product" className="text-blue-600 font-bold hover:underline flex items-center gap-1 text-sm">
-              See All Products <ArrowRight size={16} />
+            <Link href="/products" className="inline-flex items-center gap-1.5 text-xs font-black text-blue-600 tracking-wider uppercase bg-white border border-gray-200 px-4 py-2.5 rounded-xl shadow-sm hover:bg-gray-50 transition">
+              View Master Catalog &rarr;
             </Link>
           </div>
 
-          {/* LOADING STATE (SKELETON ANIMATION) */}
+          {/* SKELETON DISPLAY ENGINE */}
           {loading && (
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
               {[1, 2, 3].map((n) => (
-                <div key={n} className="border bg-white rounded-2xl p-4 animate-pulse space-y-4">
-                  <div className="bg-gray-200 h-48 w-full rounded-xl"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                  <div className="h-10 bg-gray-200 rounded-xl w-full"></div>
+                <div key={n} className="border border-gray-100 bg-white rounded-3xl p-5 space-y-4">
+                  <div className="bg-gray-100 h-48 w-full rounded-2xl animate-pulse"></div>
+                  <div className="h-4 bg-gray-100 rounded-md w-2/3 animate-pulse"></div>
+                  <div className="h-4 bg-gray-100 rounded-md w-1/4 animate-pulse"></div>
+                  <div className="h-11 bg-gray-100 rounded-xl w-full animate-pulse"></div>
                 </div>
               ))}
             </div>
           )}
 
-          {/* EMPTY / API ERROR STATE */}
+          {/* EMPTY API FALLBACK PROTOCOL */}
           {!loading && products.length === 0 && (
-            <div className="text-center py-12 bg-white rounded-3xl border border-dashed border-gray-300 max-w-md mx-auto p-8 shadow-sm">
-              <PackageX className="mx-auto text-gray-400 mb-4 animate-bounce" size={48} />
-              <h3 className="text-xl font-bold text-gray-700">No Products Found</h3>
-              <p className="text-gray-500 text-sm mt-2">
-                Hamein afsos hai, is waqt API se products nahi aa rahe hain. Please check back later ya dummy data add karein.
+            <div className="text-center py-16 bg-white border border-gray-200 rounded-3xl max-w-md mx-auto p-8 shadow-sm">
+              <PackageX className="mx-auto text-gray-300 mb-4 animate-bounce" size={44} />
+              <h3 className="text-lg font-black text-gray-800 uppercase tracking-wide">Empty Inventory Array</h3>
+              <p className="text-gray-500 text-xs mt-2 font-semibold leading-relaxed">
+                Hamein afsos hai, is waqt backend endpoint database se products stream nahi kar raha. Naya admin account banayein aur catalog panel se content seed karein.
               </p>
-              <button onClick={() => window.location.reload()} className="mt-5 bg-black text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-gray-800 transition">
-                Retry Fetching
+              <button onClick={() => window.location.reload()} className="mt-6 bg-gray-950 text-white px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider hover:bg-gray-900 transition shadow-sm">
+                Retry Fetch Session
               </button>
             </div>
           )}
 
-          {/* REAL PRODUCTS GRID */}
+          {/* DYNAMIC PRODUCT DATA ELEMENT */}
           {!loading && products.length > 0 && (
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
               {products.slice(0, 3).map((p) => (
-                <div key={p._id} className="group border bg-white rounded-2xl p-4 hover:shadow-xl transition duration-300 relative">
-                  <div className="overflow-hidden rounded-xl bg-gray-100 relative">
-                    <img 
-                      src={p.image || "https://images.unsplash.com/photo-1523275335684-37898b6baf30"} 
-                      alt={p.title}
-                      className="h-48 w-full object-cover group-hover:scale-105 transition duration-300" 
-                    />
-                  </div>
-                  <div className="mt-4 space-y-1">
-                    <h3 className="font-bold text-gray-800 text-lg line-clamp-1 group-hover:text-blue-600 transition">{p.title}</h3>
-                    <p className="text-xl font-black text-gray-900">${p.price}</p>
+                <div key={p._id} className="group border border-gray-200/80 bg-white rounded-3xl p-4 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div className="overflow-hidden rounded-2xl bg-gray-50 border border-gray-100 relative h-48 w-full flex items-center justify-center">
+                      <img 
+                        src={p.image || "https://images.unsplash.com/photo-1523275335684-37898b6baf30"} 
+                        alt={p.title}
+                        className="h-full w-full object-cover group-hover:scale-102 transition duration-500" 
+                      />
+                    </div>
+                    <div className="space-y-1 px-1">
+                      <h3 className="font-black text-gray-900 text-md tracking-tight group-hover:text-blue-600 transition line-clamp-1">{p.title}</h3>
+                      <p className="text-lg font-black text-gray-950 font-sans">{formatPrice(p.price)}</p>
+                    </div>
                   </div>
 
-                  <div className="mt-4 grid grid-cols-2 gap-2">
+                  <div className="mt-5 grid grid-cols-2 gap-2">
                     <Link
-                      href={`/product/${p._id}`}
-                      className="text-center bg-gray-100 hover:bg-gray-200 text-gray-700 py-2.5 rounded-xl font-semibold text-sm transition"
+                      href={`http://localhost:4000/api/products/${p._id}`}
+                      className="text-center bg-gray-50 hover:bg-gray-100 text-gray-700 py-3 rounded-xl font-black text-xs uppercase tracking-wider border border-gray-200 transition"
                     >
-                      View Details
+                      Inspect
                     </Link>
-                    <button className="bg-black hover:bg-blue-600 text-white py-2.5 rounded-xl font-semibold text-sm transition shadow-sm">
+                    <button className="bg-gray-950 hover:bg-blue-600 text-white py-3 rounded-xl font-black text-xs uppercase tracking-wider transition shadow-sm">
                       Add to Cart
                     </button>
                   </div>
@@ -191,58 +203,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. TESTIMONIALS */}
-      <section className="px-6 py-20 max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-4">What Our Happy Customers Say</h2>
-        <p className="text-center text-gray-500 max-w-md mx-auto mb-12">Real reviews from verified accounts who absolutely love our platform.</p>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            { name: "Ali Khan", text: "Amazing product quality and lightning-fast delivery service! Strongly recommended.", role: "Verified Buyer" },
-            { name: "Sara Ahmed", text: "The client support was amazing. Product is exactly as described on the store.", role: "Premium Member" },
-            { name: "Ahmed Raza", text: "Very smooth checkout process and sleek interface. Next.js speed is unmatched!", role: "Tech Enthusiast" }
-          ].map((t, i) => (
-            <div key={i} className="border border-gray-100 p-8 rounded-2xl bg-white shadow-sm hover:shadow-md transition">
-              <div className="flex text-yellow-400 mb-4">
-                {[...Array(5)].map((_, idx) => <Star key={idx} size={16} fill="currentColor" />)}
-              </div>
-              <p className="text-gray-600 italic">"{t.text}"</p>
-              <div className="mt-6 border-t pt-4">
-                <h4 className="font-bold text-gray-900">{t.name}</h4>
-                <span className="text-xs text-gray-400">{t.role}</span>
-              </div>
-            </div>
-          ))}
+      {/* 5. USER METRICS / POLICY FRAMEWORK SECTION */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20 grid md:grid-cols-3 gap-12 border-b border-gray-100">
+        <div className="md:col-span-1 space-y-4">
+          <span className="text-blue-600 font-black text-xs uppercase tracking-widest">Store Policy Nodes</span>
+          <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight">System Operational Rules</h2>
+          <p className="text-gray-500 text-xs font-semibold leading-relaxed">
+            Humare infrastructure ke rules aur security tokens har customer lifecycle entry ko protection provide karte hain.
+          </p>
+        </div>
+        <div className="md:col-span-2 grid sm:grid-cols-2 gap-6 text-sm">
+          <div className="p-5 border border-gray-100 bg-gray-50/50 rounded-2xl space-y-2">
+            <h4 className="font-black text-gray-900 uppercase text-xs tracking-wider flex items-center gap-1.5"><Info size={14} className="text-blue-500" /> Admin Restrictions</h4>
+            <p className="text-gray-500 text-xs font-semibold leading-relaxed">Naye product elements sirf authed administrative endpoints se create ho sakte hain. Normal accounts catalog modifications bypass nahi kar sakte.</p>
+          </div>
+          <div className="p-5 border border-gray-100 bg-gray-50/50 rounded-2xl space-y-2">
+            <h4 className="font-black text-gray-900 uppercase text-xs tracking-wider flex items-center gap-1.5"><Info size={14} className="text-blue-500" /> Identity Token Lifespans</h4>
+            <p className="text-gray-500 text-xs font-semibold leading-relaxed">System tokens local validation keys ke sath persist kiye jate hain. Validation drop hotay hi system security check user session log-out clear kar deta hai.</p>
+          </div>
         </div>
       </section>
 
-      {/* 6. INTERACTIVE FAQ SECTION */}
-      <section className="bg-gray-50 py-20 px-6">
+      {/* 6. SYSTEM FAQ ACCORDION ENGINE */}
+      <section className="bg-gray-50/60 py-20 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-3">
-              <HelpCircle size={24} />
+            <div className="inline-flex items-center justify-center w-10 h-10 bg-blue-100 border border-blue-200 text-blue-600 rounded-xl mb-3">
+              <HelpCircle size={20} />
             </div>
-            <h2 className="text-3xl font-extrabold">Frequently Asked Questions</h2>
-            <p className="text-gray-500 mt-2">Aapke aam sawalaat ke tafseeli jawabaat yahan hain.</p>
+            <h2 className="text-3xl font-black tracking-tight uppercase text-gray-900">Frequently Asked Questions</h2>
+            <p className="text-gray-500 text-xs font-semibold mt-1">Ecosystem configuration aur processing loops ke aam sawalat</p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {[
-              { q: "How fast is the delivery process?", a: "Standard delivery takes 24–48 hours depending on your city location. Express shipping option is also available at checkout." },
-              { q: "Is my payment information secure?", a: "Yes, 100%. We use industry-standard SSL encryption and modern secure payment gateways like Stripe to protect your sensitive data." },
-              { q: "What is your return and refund policy?", a: "We offer a hassle-free 7-day money-back guarantee. If you are not satisfied with the product, you can request a return directly from your dashboard." }
+              { q: "How fast is the delivery process?", a: "Standard pipeline dispatch updates require 24–48 runtime hours. Detailed tracking states can be extracted natively from your profile dashboard system logs." },
+              { q: "Is my session token completely secure?", a: "Affirmative. Global request channels routing via our Axios configuration utilize encrypted bearer storage structures preserving data boundary integrity." },
+              { q: "What is your system return protocol?", a: "Every invoice item logs automated support hooks valid up to 7 calendar days. Initialization routines can be toggled manually within order ledgers." }
             ].map((faq, idx) => (
-              <div key={idx} className="bg-white border rounded-2xl overflow-hidden transition shadow-sm">
+              <div key={idx} className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm transition">
                 <button 
                   onClick={() => toggleFaq(idx)}
-                  className="w-full flex justify-between items-center p-5 text-left font-bold text-gray-800 hover:bg-gray-50 transition"
+                  className="w-full flex justify-between items-center p-5 text-left font-black text-xs uppercase tracking-wider text-gray-800 hover:bg-gray-50/50 transition"
                 >
                   <span>{faq.q}</span>
-                  <ChevronDown size={18} className={`text-gray-500 transition-transform duration-300 ${openFaq === idx ? "rotate-180 text-blue-600" : ""}`} />
+                  <ChevronDown size={14} className={`text-gray-400 transition-transform duration-300 shrink-0 ${openFaq === idx ? "rotate-180 text-blue-600" : ""}`} />
                 </button>
                 {openFaq === idx && (
-                  <div className="p-5 pt-0 text-gray-600 text-sm leading-relaxed border-t border-gray-50 bg-gray-50/50">
+                  <div className="p-5 pt-0 text-gray-500 text-xs font-semibold leading-relaxed border-t border-gray-50 bg-gray-50/30">
                     {faq.a}
                   </div>
                 )}
@@ -252,19 +260,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. CALL TO ACTION (CTA) */}
-      <section className="bg-black text-white text-center py-20 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-900/40 via-transparent to-transparent"></div>
+      {/* 7. ACTION TARGET CALL-TO-ACTION (CTA) */}
+      <section className="bg-gray-950 text-white text-center py-24 px-6 relative overflow-hidden border-t border-gray-900">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
         <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Start Your Shopping Journey Today</h2>
-          <p className="text-gray-400 max-w-md mx-auto">
-            Join thousands of happy customers and experience premium shopping experience like never before.
+          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight">Deploy Your Procurement Route</h2>
+          <p className="text-gray-400 text-xs sm:text-sm max-w-md mx-auto leading-relaxed font-medium">
+            Join thousands of active identity entities scaling inventory networks via modular MERN deployment metrics.
           </p>
           <Link
-            href="/product"
-            className="mt-4 inline-block bg-white text-black hover:bg-gray-100 font-bold px-8 py-4 rounded-xl transition shadow-lg transform hover:scale-105"
+            href="/products"
+            className="inline-block bg-white text-gray-950 hover:bg-gray-100 font-black text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition shadow-lg transform hover:scale-[1.02] mt-2"
           >
-            Explore All Products
+            Launch Core Store Grid
           </Link>
         </div>
       </section>

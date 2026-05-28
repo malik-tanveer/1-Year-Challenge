@@ -1,258 +1,203 @@
-import React from 'react';
+"use client";
 
-const page = () => {
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import {
+  ShoppingBag,
+  Sparkles,
+  Layers,
+  PlusCircle,
+  ShoppingCart
+} from "lucide-react";
+import { getProducts } from "@/services/productService";
+import formatPrice from "@/utils/formatPrice";
+import Swal from "sweetalert2";
+
+export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetching data on client mount smoothly
+  useEffect(() => {
+    async function loadInventory() {
+      try {
+        const data = await getProducts();
+        setProducts(data.products || data || []);
+      } catch (err) {
+        console.error("Failed to stream layout indices via productService:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadInventory();
+  }, []);
+
+  // Temporary Client Side Cart Storage handler
+  const handleAddToCart = (product) => {
+    // 🚨 STAGE 1: STOCK VALIDATION CONSTRAINT CHECK
+    if (product.stock <= 0) {
+      Swal.fire({
+        title: "Out of Stock",
+        text: "Sorry, this validation matrix node currently holds no active physical units.",
+        icon: "error",
+        confirmButtonColor: "#ef4444"
+      });
+      return;
+    }
+
+    // Reading previous cart entries from localStorage or initializing empty array
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+    // Check if item is already added
+    const isExist = existingCart.find((item) => item._id === product._id);
+    
+    if (isExist) {
+      Swal.fire({
+        title: "Already in Cart!",
+        text: `${product.title} has already been added to your shopping cart setup.`,
+        icon: "info",
+        confirmButtonColor: "#2563eb",
+        customClass: { popup: "rounded-3xl font-sans" }
+      });
+      return;
+    }
+
+    // Pushing product entry node into layout array
+    existingCart.push({ ...product, quantity: 1 });
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+
+    // 🔥 DISPATCH CUSTOM EVENT TO UPDATE NAVBAR COUNTER INSTANTLY
+    window.dispatchEvent(new Event("cartUpdated"));
+
+    // Success confirmation popup
+    Swal.fire({
+      title: "Added to Cart!",
+      text: `${product.title} added successfully.`,
+      icon: "success",
+      confirmButtonColor: "#2563eb",
+      customClass: { popup: "rounded-3xl font-sans" }
+    });
+  };
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center font-black text-blue-600 animate-pulse tracking-widest uppercase">Streaming Global Inventory Archive...</div>;
+
   return (
-    <>
-     <div className="relative bg-gray-50">
-    <div className="absolute bottom-0 right-0 overflow-hidden lg:inset-y-0">
-        <img className="w-auto h-full" src="https://d33wubrfki0l68.cloudfront.net/1e0fc04f38f5896d10ff66824a62e466839567f8/699b5/images/hero/3/background-pattern.png" alt="" />
-    </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 font-sans antialiased text-gray-900">
+      
+      {/* HERO BANNER */}
+      <section className="relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-72 h-72 bg-blue-400 opacity-20 blur-3xl rounded-full"></div>
+        <div className="max-w-7xl mx-auto px-6 py-20 text-center">
+          <div className="inline-flex items-center gap-2 bg-white border border-blue-200 shadow-sm px-5 py-2 rounded-full text-xs font-black uppercase text-blue-700 tracking-wider mb-6">
+            <Sparkles className="w-4 h-4" /> Global Inventory Stream
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black text-gray-900 leading-tight uppercase">
+            Explore Core
+            <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Product Archive
+            </span>
+          </h1>
+          
+          {/* VIEW CART FLOATING BUTTON */}
+          <div className="mt-8">
+            <Link href="/cart" className="inline-flex items-center gap-2 bg-gray-950 text-white text-xs font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-gray-800 transition shadow-lg">
+              <ShoppingCart className="w-4 h-4 text-blue-400" /> Open Shopping Cart
+            </Link>
+          </div>
+        </div>
+      </section>
 
-    <section className="relative py-12 sm:py-16 lg:pt-20 lg:pb-36">
-        <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-            <div className="grid grid-cols-1 gap-y-8 lg:items-center lg:grid-cols-2 sm:gap-y-20 xl:grid-cols-5">
-                <div className="text-center xl:col-span-2 lg:text-left md:px-16 lg:px-0">
-                    <div className="max-w-sm mx-auto sm:max-w-md md:max-w-full">
-                        <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-tight font-pj">Get meaningful feedbacks on your code</h1>
+      {/* PRODUCTS DISPLAY GRID */}
+      <section className="pb-28">
+        <div className="max-w-7xl mx-auto px-6">
 
-                        <div className="mt-8 lg:mt-12 lg:flex lg:items-center">
-                            <div className="flex justify-center flex-shrink-0 -space-x-4 overflow-hidden lg:justify-start">
-                                <img className="inline-block rounded-full w-14 h-14 ring-2 ring-white" src="https://d33wubrfki0l68.cloudfront.net/3bfa6da479d6b9188c58f2d9a8d33350290ee2ef/301f1/images/hero/3/avatar-male.png" alt="" />
-                                <img className="inline-block rounded-full w-14 h-14 ring-2 ring-white" src="https://d33wubrfki0l68.cloudfront.net/b52fa09a115db3a80ceb2d52c275fadbf84cf8fc/7fd8a/images/hero/3/avatar-female-1.png" alt="" />
-                                <img className="inline-block rounded-full w-14 h-14 ring-2 ring-white" src="https://d33wubrfki0l68.cloudfront.net/8a2efb13f103a5ae2909e244380d73087a9c2fc4/31ed6/images/hero/3/avatar-female-2.png" alt="" />
-                            </div>
+          <div className="mb-12 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-gray-200 pb-6">
+            <div>
+              <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Active Stock Indices</h2>
+              <p className="text-xs text-gray-400 font-bold mt-0.5">Fetched smoothly via localized service architecture</p>
+            </div>
+            
+            <Link 
+              href="/products/create"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black uppercase tracking-wider px-5 py-3 rounded-xl shadow-md transition"
+            >
+              <PlusCircle className="w-4 h-4" /> Seed New Inventory
+            </Link>
+          </div>
 
-                            <p className="mt-4 text-lg text-gray-900 lg:mt-0 lg:ml-4 font-pj">Join with <span className="font-bold">4600+ Developers</span> and start getting feedbacks right now</p>
-                        </div>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {products.map((product) => {
+              // Precompute checking flag for modularity
+              const isOutOfStock = (product.stock ?? 0) <= 0;
+
+              return (
+                <article
+                  key={product._id}
+                  className="bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-2xl transition duration-300 border border-gray-200/60 flex flex-col hover:-translate-y-1.5"
+                >
+                  <div className="h-56 bg-gray-50 border-b border-gray-100 flex items-center justify-center relative group p-6">
+                    <img 
+                      src={product.image || "https://images.unsplash.com/photo-1523275335684-37898b6baf30"} 
+                      alt={product.title} 
+                      className="h-full w-full object-contain transition duration-500 group-hover:scale-102"
+                    />
+                    
+                    {/* 🚨 DYNAMIC BADGE OVERLAY */}
+                    <div className={`absolute top-4 left-4 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md text-white ${isOutOfStock ? "bg-red-600 animate-pulse" : "bg-gray-950"}`}>
+                      {isOutOfStock ? "Out of Stock" : (product.category || "Hardware")}
+                    </div>
+                  </div>
+
+                  <div className="p-6 flex flex-col flex-1 justify-between space-y-6">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+                        <Layers className="w-3.5 h-3.5 text-blue-500" />
+                        <span>Stock Units: <span className={`font-mono font-black ${isOutOfStock ? "text-red-500" : "text-gray-900"}`}>{product.stock ?? 0}</span></span>
+                      </div>
+                      <h3 className="text-xl font-black text-gray-900 tracking-tight line-clamp-1">{product.title}</h3>
+                      <p className="text-xs text-gray-400 font-semibold leading-relaxed line-clamp-3">{product.description}</p>
                     </div>
 
-                    <div className="mt-8 sm:flex sm:items-center sm:justify-center lg:justify-start sm:space-x-5 lg:mt-12">
-                        <a
-                            href="#"
-                            title=""
-                            className="inline-flex items-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 font-pj justif-center hover:bg-gray-600"
-                            role="button"
+                    <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+                      <div>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Pipeline Valuation</p>
+                        <p className="text-lg font-black text-gray-950 mt-0.5">{formatPrice(product.price)}</p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <Link
+                          href={`/products/${product._id}`}
+                          className="text-xs font-black uppercase tracking-wider bg-gray-50 border border-gray-200 text-gray-700 px-3 py-2.5 rounded-xl hover:bg-gray-100 transition"
                         >
-                            Get feedback
-                        </a>
-
+                          Inspect
+                        </Link>
+                        
+                        {/* 🚨 DISABLED IF OUT OF STOCK CONTROLLER */}
+                        <button
+                          onClick={() => handleAddToCart(product)}
+                          disabled={isOutOfStock}
+                          className={`text-xs font-black uppercase tracking-wider px-3 py-2.5 rounded-xl transition flex items-center gap-1 shadow-sm ${isOutOfStock ? "bg-gray-100 text-gray-400 cursor-not-allowed border" : "bg-blue-600 text-white hover:bg-blue-700"}`}
+                        >
+                          <ShoppingCart className="w-3.5 h-3.5" /> {isOutOfStock ? "Sold Out" : "+Cart"}
+                        </button>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
 
-                <div className="xl:col-span-3">
-                    <img className="w-full mx-auto scale-110" src="https://d33wubrfki0l68.cloudfront.net/29c501c64b21014b3f2e225abe02fe31fd8f3a5c/f866d/images/hero/3/illustration.png" alt="" />
-                </div>
+          {products.length === 0 && (
+            <div className="bg-white rounded-[40px] shadow-sm border border-gray-200 p-16 text-center mt-6 max-w-2xl mx-auto">
+              <ShoppingBag className="w-16 h-16 text-blue-600 mx-auto mb-6" />
+              <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tight">No Active Products</h2>
+              <p className="text-sm text-gray-500 max-w-sm mx-auto mt-2 font-semibold">Service endpoint array is currently empty.</p>
             </div>
+          )}
+
         </div>
-    </section>
-</div>
-     <section className="py-12 bg-white sm:py-16 lg:py-20">
-    <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-        <div className="max-w-md mx-auto text-center">
-            <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Our featured items</h2>
-            <p className="mt-4 text-base font-normal leading-7 text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus faucibus massa dignissim tempus.</p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-6 mt-10 lg:mt-16 lg:gap-4 lg:grid-cols-4">
-            <div className="relative group">
-                <div className="overflow-hidden aspect-w-1 aspect-h-1">
-                    <img className="object-cover w-full h-full transition-all duration-300 group-hover:scale-125" src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/4/product-1.png" alt="" />
-                </div>
-                <div className="absolute left-3 top-3">
-                    <p className="sm:px-3 sm:py-1.5 px-1.5 py-1 text-[8px] sm:text-xs font-bold tracking-wide text-gray-900 uppercase bg-white rounded-full">New</p>
-                </div>
-                <div className="flex items-start justify-between mt-4 space-x-4">
-                    <div>
-                        <h3 className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">
-                            <a href="#" title="">
-                                Beoplay M5 Bluetooth Speaker
-                                <span className="absolute inset-0" aria-hidden="true"></span>
-                            </a>
-                        </h3>
-                        <div className="flex items-center mt-2.5 space-x-px">
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-gray-300 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div className="text-right">
-                        <p className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">$99.00</p>
-                    </div>
-                </div>
-            </div>
-
-            <div className="relative group">
-                <div className="overflow-hidden aspect-w-1 aspect-h-1">
-                    <img className="object-cover w-full h-full transition-all duration-300 group-hover:scale-125" src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/4/product-2.png" alt="" />
-                </div>
-                <div className="flex items-start justify-between mt-4 space-x-4">
-                    <div>
-                        <h3 className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">
-                            <a href="#" title="">
-                                Apple Smart Watch 6 - Special Edition
-                                <span className="absolute inset-0" aria-hidden="true"></span>
-                            </a>
-                        </h3>
-                        <div className="flex items-center mt-2.5 space-x-px">
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div className="text-right">
-                        <p className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">$299.00</p>
-                    </div>
-                </div>
-            </div>
-
-            <div className="relative group">
-                <div className="overflow-hidden aspect-w-1 aspect-h-1">
-                    <img className="object-cover w-full h-full transition-all duration-300 group-hover:scale-125" src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/4/product-3.png" alt="" />
-                </div>
-                <div className="absolute left-3 top-3">
-                    <p className="sm:px-3 sm:py-1.5 px-1.5 py-1 text-[8px] sm:text-xs font-bold tracking-wide text-white uppercase bg-gray-900 rounded-full">Sale</p>
-                </div>
-                <div className="flex items-start justify-between mt-4 space-x-4">
-                    <div>
-                        <h3 className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">
-                            <a href="#" title="">
-                                Beylob 90 Speaker
-                                <span className="absolute inset-0" aria-hidden="true"></span>
-                            </a>
-                        </h3>
-                        <div className="flex items-center mt-2.5 space-x-px">
-                            <svg className="w-3 h-3 text-gray-300 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-gray-300 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-gray-300 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-gray-300 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-gray-300 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div className="text-right">
-                        <p className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">$49.00</p>
-                        <del className="mt-0.5 text-xs sm:text-sm font-bold text-gray-500"> $99.00 </del>
-                    </div>
-                </div>
-            </div>
-
-            <div className="relative group">
-                <div className="overflow-hidden aspect-w-1 aspect-h-1">
-                    <img className="object-cover w-full h-full transition-all duration-300 group-hover:scale-125" src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/4/product-4.png" alt="" />
-                </div>
-                <div className="flex items-start justify-between mt-4 space-x-4">
-                    <div>
-                        <h3 className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">
-                            <a href="#" title="">
-                                Martino 75 Bluetooth
-                                <span className="absolute inset-0" aria-hidden="true"></span>
-                            </a>
-                        </h3>
-                        <div className="flex items-center mt-2.5 space-x-px">
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-yellow-400 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-gray-300 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                            <svg className="w-3 h-3 text-gray-300 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path
-                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                                />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div className="text-right">
-                        <p className="text-xs font-bold text-gray-900 sm:text-sm md:text-base">$79.00</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </section>
     </div>
-</section>
-</>
-  )
+  );
 }
-
-export default page
