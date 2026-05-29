@@ -1,5 +1,3 @@
-// models/Order.js
-
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
@@ -45,6 +43,48 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
       default: 0,
+    },
+
+    shippingAddress: {
+      fullName: {
+        type: String,
+        required: true,
+      },
+
+      phone: {
+        type: String,
+        required: true,
+      },
+
+      address: {
+        type: String,
+        required: true,
+      },
+
+      city: {
+        type: String,
+        required: true,
+      },
+
+      postalCode: {
+        type: String,
+        required: true,
+      },
+
+      country: {
+        type: String,
+        default: "Pakistan",
+      },
+    },
+
+    paymentMethod: {
+      type: String,
+      enum: ["COD", "Card", "JazzCash", "EasyPaisa"],
+      default: "COD",
+    },
+
+    orderNotes: {
+      type: String,
     },
 
     status: {
