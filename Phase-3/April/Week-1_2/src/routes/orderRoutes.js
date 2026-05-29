@@ -5,15 +5,17 @@ import {
   deleteOrder,
   getMyOrders,
   getOrderById,
+  getAllOrdersAdmin,
 } from "../controllers/orderController.js";
-import { protect } from "../middlewares/authMiddleware.js";
+import { protect, authorize } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", protect, createOrder);
-router.get("/", getMyOrders);
-router.get("/:id", getOrderById);
+router.post("/", protect, createOrder);       // Order place karne ke liye
+router.get("/", getMyOrders);       // User ke apne orders lane ke liye
+router.get("/admin/all", protect, authorize("admin"), getAllOrdersAdmin); 
+router.get("/:id", protect, getOrderById);
 router.put("/:id", protect, updateOrder);
-router.delete("/:id",  deleteOrder);
+router.delete("/:id", protect, authorize("admin"), deleteOrder);
 
 export default router;

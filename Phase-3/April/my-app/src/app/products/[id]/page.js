@@ -135,7 +135,7 @@ export default function ProductDetailsPage({ params }) {
                 <p className="text-[10px] font-black text-gray-400 uppercase">Product Price</p>
                 <p className="text-2xl font-black text-gray-950">{formatPrice(product.price)}</p>
               </div>
-              <Link href={`/orders/create?productId=${id}`} className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-xs font-black uppercase transition shadow-md">
+              <Link href={`/order/create?productId=${id}`} className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-xs font-black uppercase transition shadow-md">
                 <ShoppingCart className="w-4 h-4" /> Order Now
               </Link>
             </div>

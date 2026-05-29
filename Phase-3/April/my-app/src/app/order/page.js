@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Package, ShieldAlert, Trash2, RefreshCw, User, Notebook, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation"; // 👈 Next.js Router for Page Navigation
+import { Package, ShieldAlert, Trash2, RefreshCw, User, Edit3 } from "lucide-react";
 import formatPrice from "@/utils/formatPrice";
 import Swal from "sweetalert2";
 
@@ -9,6 +10,7 @@ import Swal from "sweetalert2";
 import { getOrders, getOrdersAdmin, updateOrder, deleteOrder } from "@/services/orderService"; 
 
 export default function OrdersPage() {
+  const router = useRouter(); // 👈 Initializing Router
   const [myOrders, setMyOrders] = useState([]);
   const [adminOrders, setAdminOrders] = useState([]);
   const [activeTab, setActiveTab] = useState("user"); // user OR admin
@@ -44,7 +46,7 @@ export default function OrdersPage() {
     }
   };
 
-  // 🔥 ADMIN/USER STATUS UPDATE DISPATCHER (Using Service)
+  // 🔥 ADMIN STATUS UPDATE DISPATCHER (Using Service)
   const handleUpdateStatus = async (orderId, newStatus) => {
     const token = localStorage.getItem("token");
     try {
@@ -202,6 +204,16 @@ export default function OrdersPage() {
                           <option value="shipped">Shipped</option>
                           <option value="delivered">Delivered</option>
                         </select>
+                        
+                        {/* Admin Side Edit Button */}
+                        <button 
+                          onClick={() => router.push(`/order/edit/${order._id}`)}
+                          className="p-2 bg-blue-50 text-blue-600 border border-blue-100 hover:bg-blue-100 rounded-xl transition shadow-sm"
+                          title="Edit Order Properties"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+
                         <button 
                           onClick={() => handleDeleteOrder(order._id)} 
                           className="p-2 bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 rounded-xl transition shadow-sm"
@@ -212,24 +224,31 @@ export default function OrdersPage() {
                       </div>
                     </div>
                   ) : (
-                    /* USER CANCEL CONTROL */
+                    /* USER CONTROL ZONE */
                     order.status === "pending" && (
-                      <button 
-                        onClick={() => handleDeleteOrder(order._id)} 
-                        className="w-full lg:w-auto inline-flex items-center justify-center gap-2 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-100 py-2.5 px-4 rounded-xl transition tracking-wide uppercase"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" /> Cancel Order
-                      </button>
+                      <div className="flex flex-col sm:flex-row lg:flex-col gap-2 justify-end">
+                        {/* User Side Edit Button */}
+                        <button 
+                          onClick={() => router.push(`/order/edit/${order._id}`)}
+                          className="w-full lg:w-auto inline-flex items-center justify-center gap-2 text-xs font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-100 py-2.5 px-4 rounded-xl transition tracking-wide uppercase"
+                        >
+                          <Edit3 className="w-3.5 h-3.5" /> Edit Details
+                        </button>
+                        
+                        <button 
+                          onClick={() => handleDeleteOrder(order._id)} 
+                          className="w-full lg:w-auto inline-flex items-center justify-center gap-2 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-100 py-2.5 px-4 rounded-xl transition tracking-wide uppercase"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" /> Cancel Order
+                        </button>
+                      </div>
                     )
                   )}
-
                 </div>
-
               </div>
             ))}
           </div>
         )}
-
       </div>
     </div>
   );

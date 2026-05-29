@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, ShoppingCart, Trash2, ShieldCheck, Eye, Plus, Minus, MapPin, Phone, User, Notebook } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Trash2, ShieldCheck, Plus, Minus, MapPin, Phone, User, Notebook, CreditCard, Wallet } from "lucide-react";
 import formatPrice from "@/utils/formatPrice";
 import Swal from "sweetalert2";
 
@@ -10,17 +10,24 @@ export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   
-  // Shipping form architecture state
+  // Shipping form architecture state (Country dynamic initialized)
   const [shippingDetails, setShippingDetails] = useState({
     fullName: "",
     phone: "",
     address: "",
     city: "",
     postalCode: "",
-    country: "Pakistan",
+    country: "Pakistan", // Default placeholder value but editable now
   });
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const [orderNotes, setOrderNotes] = useState("");
+
+  // Extra Transaction States for Online Channels
+  const [accountNumber, setAccountNumber] = useState("");
+  const [cardHolder, setCardHolder] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvc, setCardCvc] = useState("");
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -54,9 +61,20 @@ export default function CartPage() {
   const handlePlaceOrderSubmit = async (e) => {
     e.preventDefault();
 
-    // Verification layer checks
-    if (!shippingDetails.fullName || !shippingDetails.phone || !shippingDetails.address || !shippingDetails.city || !shippingDetails.postalCode) {
+    // Base Coordinate Validation Checks
+    if (!shippingDetails.fullName || !shippingDetails.phone || !shippingDetails.address || !shippingDetails.city || !shippingDetails.postalCode || !shippingDetails.country) {
       Swal.fire({ title: "Missing fields", text: "Please populate all mandatory delivery coordinates.", icon: "warning", confirmButtonColor: "#2563eb" });
+      return;
+    }
+
+    // Dynamic Wallet & Card Constraint Checks
+    if ((paymentMethod === "EasyPaisa" || paymentMethod === "JazzCash") && !accountNumber) {
+      Swal.fire({ title: "Wallet Missing", text: `Please enter your registered ${paymentMethod} account phone number.`, icon: "warning", confirmButtonColor: "#2563eb" });
+      return;
+    }
+
+    if (paymentMethod === "Card" && (!cardNumber || !cardExpiry || !cardCvc)) {
+      Swal.fire({ title: "Card Incomplete", text: "Please input full secure credit credentials.", icon: "warning", confirmButtonColor: "#2563eb" });
       return;
     }
 
@@ -65,13 +83,21 @@ export default function CartPage() {
     try {
       const token = localStorage.getItem("token"); // Pulling authentic user JWT token context
       
-      // Formatting mapping logic array precisely for your backend schema parser
+      // Formatting mapping logic array precisely for backend schema parser
       const structuredProductsPayload = cartItems.map((item) => ({
         productId: item._id,
         quantity: item.quantity || 1,
       }));
 
-      const response = await fetch("http://localhost:5000/api/orders", { // Update with your exact base API URL endpoint channel
+      // Extra payload data parameters compilation
+      let paymentDetails = {};
+      if (paymentMethod === "EasyPaisa" || paymentMethod === "JazzCash") {
+        paymentDetails = { account: accountNumber };
+      } else if (paymentMethod === "Card") {
+        paymentDetails = { holder: cardHolder, lastFour: cardNumber.slice(-4) };
+      }
+
+      const response = await fetch("http://localhost:5000/api/orders", { 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,6 +107,7 @@ export default function CartPage() {
           products: structuredProductsPayload,
           shippingAddress: shippingDetails,
           paymentMethod,
+          paymentDetails, 
           orderNotes
         }),
       });
@@ -173,31 +200,31 @@ export default function CartPage() {
 
             <form onSubmit={handlePlaceOrderSubmit} className="space-y-4">
               <div>
-                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Full Name</label>
+                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Full Name *</label>
                 <div className="relative"><User className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
                   <input type="text" required placeholder="Ahmed Raza Khan" value={shippingDetails.fullName} onChange={(e) => setShippingDetails({...shippingDetails, fullName: e.target.value})} className="w-full text-xs font-semibold pl-9 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
                 </div>
               </div>
 
               <div>
-                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Contact Phone</label>
+                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Contact Phone *</label>
                 <div className="relative"><Phone className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
                   <input type="tel" required placeholder="03011234567" value={shippingDetails.phone} onChange={(e) => setShippingDetails({...shippingDetails, phone: e.target.value})} className="w-full text-xs font-semibold pl-9 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
                 </div>
               </div>
 
               <div>
-                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Street Address</label>
+                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Street Address *</label>
                 <textarea required rows={2} placeholder="House 42, Street 12, North Nazimabad" value={shippingDetails.address} onChange={(e) => setShippingDetails({...shippingDetails, address: e.target.value})} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition resize-none" />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">City</label>
+                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">City *</label>
                   <input type="text" required placeholder="Karachi" value={shippingDetails.city} onChange={(e) => setShippingDetails({...shippingDetails, city: e.target.value})} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Postal Code</label>
+                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Postal Code *</label>
                   <input type="text" required placeholder="74700" value={shippingDetails.postalCode} onChange={(e) => setShippingDetails({...shippingDetails, postalCode: e.target.value})} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
                 </div>
               </div>
@@ -209,14 +236,38 @@ export default function CartPage() {
                     <option value="COD">Cash On Delivery</option>
                     <option value="JazzCash">JazzCash</option>
                     <option value="EasyPaisa">EasyPaisa</option>
-                    <option value="Card">Card</option>
+                    <option value="Card">Visa / Mastercard</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Country</label>
-                  <input type="text" disabled value={shippingDetails.country} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-100 text-gray-500" />
+                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Country *</label>
+                  <input type="text" required placeholder="Pakistan" value={shippingDetails.country} onChange={(e) => setShippingDetails({...shippingDetails, country: e.target.value})} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
                 </div>
               </div>
+
+              {/* DYNAMIC CARD LOGIC FIELDS */}
+              {paymentMethod === "Card" && (
+                <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 space-y-3 transition duration-200">
+                  <p className="text-[11px] font-black uppercase text-blue-800 tracking-wider flex items-center gap-1.5"><CreditCard className="w-3.5 h-3.5" /> Credit/Debit Card Credentials</p>
+                  <input type="text" placeholder="Cardholder Name" value={cardHolder} onChange={(e) => setCardHolder(e.target.value)} className="w-full text-xs p-2.5 border rounded-lg bg-white outline-none" />
+                  <input type="text" maxLength={16} placeholder="Card Number (16 Digits)" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} className="w-full text-xs p-2.5 border rounded-lg bg-white outline-none font-mono" />
+                  <div className="grid grid-cols-2 gap-3">
+                    <input type="text" placeholder="MM/YY" value={cardExpiry} onChange={(e) => setCardExpiry(e.target.value)} className="w-full text-xs p-2.5 border rounded-lg bg-white outline-none font-mono" />
+                    <input type="password" maxLength={3} placeholder="CVC" value={cardCvc} onChange={(e) => setCardCvc(e.target.value)} className="w-full text-xs p-2.5 border rounded-lg bg-white outline-none font-mono" />
+                  </div>
+                </div>
+              )}
+
+              {/* DYNAMIC WALLET LOGIC FIELDS */}
+              {(paymentMethod === "EasyPaisa" || paymentMethod === "JazzCash") && (
+                <div className={`border rounded-2xl p-4 space-y-3 transition duration-200 ${paymentMethod === "EasyPaisa" ? "bg-emerald-50 border-emerald-100 text-emerald-800" : "bg-amber-50 border-amber-100 text-amber-800"}`}>
+                  <p className="text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5"><Wallet className="w-3.5 h-3.5" /> Mobile Wallet Account</p>
+                  <div>
+                    <label className="text-[9px] font-bold block mb-1">Registered {paymentMethod} Phone Number</label>
+                    <input type="tel" placeholder="03XXXXXXXXX" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} className="w-full text-xs p-2.5 border rounded-lg bg-white text-gray-900 outline-none font-mono" />
+                  </div>
+                </div>
+              )}
 
               <div>
                 <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Order Notes (Optional)</label>
@@ -234,7 +285,6 @@ export default function CartPage() {
               </button>
             </form>
           </div>
-
         </div>
       </div>
     </div>
