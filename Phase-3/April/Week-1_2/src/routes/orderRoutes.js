@@ -1,5 +1,3 @@
-// routes/orderRoutes.js
-
 import express from "express";
 import {
   createOrder,
@@ -14,8 +12,8 @@ const router = express.Router();
 
 router.post("/", protect, createOrder);
 router.get("/", getMyOrders);
-router.get("/:id",protect ,getOrderById);
+router.get("/:id", getOrderById);
 router.put("/:id", protect, updateOrder);
-router.delete("/:id", protect, deleteOrder);
+router.delete("/:id",  deleteOrder);
 
 export default router;

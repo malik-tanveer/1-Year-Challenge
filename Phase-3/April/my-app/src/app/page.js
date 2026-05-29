@@ -17,6 +17,7 @@ import {
   Info
 } from "lucide-react";
 import { getProducts } from "@/services/productService";
+import ProtectedRoute from "@/components/ProtectedRoute"
 import formatPrice from "@/utils/formatPrice"; 
 
 export default function Home() {
@@ -45,6 +46,7 @@ export default function Home() {
   };
 
   return (
+    <ProtectedRoute>
     <div className="bg-white text-gray-900 min-h-screen font-sans antialiased">
       
       {/* 1. TOP PREMIUM ANNOUNCEMENT BAR */}
@@ -187,7 +189,7 @@ export default function Home() {
 
                   <div className="mt-5 grid grid-cols-2 gap-2">
                     <Link
-                      href={`http://localhost:4000/api/products/${p._id}`}
+                      href={`http://localhost:5000/api/products/${p._id}`}
                       className="text-center bg-gray-50 hover:bg-gray-100 text-gray-700 py-3 rounded-xl font-black text-xs uppercase tracking-wider border border-gray-200 transition"
                     >
                       Inspect
@@ -278,5 +280,6 @@ export default function Home() {
       </section>
 
     </div>
+ </ProtectedRoute>
   );
 }

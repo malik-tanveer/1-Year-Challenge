@@ -2,32 +2,42 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, ShoppingCart, Trash2, ShieldCheck, Eye, Plus, Minus } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Trash2, ShieldCheck, Eye, Plus, Minus, MapPin, Phone, User, Notebook } from "lucide-react";
 import formatPrice from "@/utils/formatPrice";
 import Swal from "sweetalert2";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
+  const [loadingCheckout, setLoadingCheckout] = useState(false);
+  
+  // Shipping form architecture state
+  const [shippingDetails, setShippingDetails] = useState({
+    fullName: "",
+    phone: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "Pakistan",
+  });
+  const [paymentMethod, setPaymentMethod] = useState("COD");
+  const [orderNotes, setOrderNotes] = useState("");
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(savedCart);
   }, []);
 
-  // Update counter payload safely
   const updateQuantity = (id, amount) => {
     const updatedCart = cartItems.map((item) => {
       if (item._id === id) {
         const newQuantity = (item.quantity || 1) + amount;
-        // Keep constraints bounded between 1 and total stock allocation available
         return { ...item, quantity: Math.max(1, Math.min(newQuantity, item.stock || 10)) };
       }
       return item;
     });
-
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-    window.dispatchEvent(new Event("cartUpdated")); // Sync navbar count
+    window.dispatchEvent(new Event("cartUpdated"));
   };
 
   const handleRemoveItem = (id, title) => {
@@ -35,102 +45,195 @@ export default function CartPage() {
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     window.dispatchEvent(new Event("cartUpdated"));
-
-    Swal.fire({
-      title: "Removed!",
-      text: `${title} drop operational parameter successful.`,
-      icon: "success",
-      confirmButtonColor: "#2563eb",
-    });
+    Swal.fire({ title: "Removed!", text: `${title} drop successful.`, icon: "success", confirmButtonColor: "#2563eb" });
   };
 
-  // Matrix accumulation aggregation formula ($ Summation)
   const cartTotalValue = cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0);
 
-  const handleMockCheckoutProcess = () => {
-    Swal.fire({
-      title: "Staging Framework Locked!",
-      text: "Cart parameters are configured correctly. Moving to order microservice connection pipeline...",
-      icon: "info",
-      confirmButtonColor: "#2563eb",
-    });
+  // 🔥 CORE INTEGRATION INTERACTION HANDLER
+  const handlePlaceOrderSubmit = async (e) => {
+    e.preventDefault();
+
+    // Verification layer checks
+    if (!shippingDetails.fullName || !shippingDetails.phone || !shippingDetails.address || !shippingDetails.city || !shippingDetails.postalCode) {
+      Swal.fire({ title: "Missing fields", text: "Please populate all mandatory delivery coordinates.", icon: "warning", confirmButtonColor: "#2563eb" });
+      return;
+    }
+
+    setLoadingCheckout(true);
+
+    try {
+      const token = localStorage.getItem("token"); // Pulling authentic user JWT token context
+      
+      // Formatting mapping logic array precisely for your backend schema parser
+      const structuredProductsPayload = cartItems.map((item) => ({
+        productId: item._id,
+        quantity: item.quantity || 1,
+      }));
+
+      const response = await fetch("http://localhost:5000/api/orders", { // Update with your exact base API URL endpoint channel
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          products: structuredProductsPayload,
+          shippingAddress: shippingDetails,
+          paymentMethod,
+          orderNotes
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        Swal.fire({
+          title: "Order Dispatched!",
+          text: `Transaction successful! Order Reference ID: ${data.order._id}`,
+          icon: "success",
+          confirmButtonColor: "#2563eb",
+          customClass: { popup: "rounded-3xl font-sans" }
+        });
+
+        // Clear localized user storage session caches on transaction success
+        localStorage.removeItem("cart");
+        setCartItems([]);
+        window.dispatchEvent(new Event("cartUpdated")); // Notify global state interfaces
+      } else {
+        throw new Error(data.message || "Failed processing order array payload streams.");
+      }
+    } catch (error) {
+      Swal.fire({ title: "Checkout Halted", text: error.message, icon: "error", confirmButtonColor: "#ef4444" });
+    } finally {
+      setLoadingCheckout(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 font-sans text-gray-900 antialiased py-16 px-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         
         <Link href="/products" className="inline-flex items-center gap-2 text-xs font-black uppercase text-blue-700 tracking-wider hover:underline mb-8">
           <ArrowLeft className="w-4 h-4" /> Return to Catalog Stream
         </Link>
 
-        <div className="bg-white rounded-[36px] shadow-2xl border border-gray-100 p-8 sm:p-12 overflow-hidden">
-          <div className="border-b pb-6 mb-6">
-            <h1 className="text-3xl font-black uppercase tracking-tight flex items-center gap-3">
-              <ShoppingCart className="w-8 h-8 text-blue-600" /> Staging Cart
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* CART ITEMS STRUCTURAL PANEL */}
+          <div className="bg-white rounded-[36px] shadow-2xl border border-gray-100 p-8 lg:col-span-7">
+            <h1 className="text-2xl font-black uppercase tracking-tight flex items-center gap-3 border-b pb-4 mb-6">
+              <ShoppingCart className="w-6 h-6 text-blue-600" /> Cart Summary
             </h1>
-          </div>
 
-          {cartItems.length === 0 ? (
-            <div className="text-center py-16 space-y-4">
-              <ShoppingCart className="w-16 h-16 mx-auto text-gray-300 animate-bounce" />
-              <h2 className="text-xl font-black text-gray-400 uppercase">Cart is Empty</h2>
-              <Link href="/products" className="inline-block bg-blue-600 text-white text-xs font-black uppercase px-6 py-3.5 rounded-xl tracking-wider shadow-md mt-2">Browse Products</Link>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              <div className="divide-y divide-gray-100">
+            {cartItems.length === 0 ? (
+              <div className="text-center py-12">
+                <h2 className="text-lg font-black text-gray-400 uppercase">Your cart is empty</h2>
+                <Link href="/products" className="inline-block bg-blue-600 text-white text-xs font-black uppercase px-6 py-3 rounded-xl shadow-md mt-4">Shop Products</Link>
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-100 space-y-4">
                 {cartItems.map((item) => (
-                  <div key={item._id} className="flex flex-col sm:flex-row sm:items-center justify-between py-6 first:pt-0 last:pb-0 gap-4">
-                    
-                    {/* PRODUCT OVERVIEW */}
+                  <div key={item._id} className="flex flex-col sm:flex-row sm:items-center justify-between py-4 first:pt-0 last:pb-0 gap-4">
                     <div className="flex items-center gap-4">
-                      <Link href={`/products/${item._id}`} className="shrink-0 block group relative">
-                        <img src={item.image} alt={item.title} className="w-16 h-16 object-contain rounded-xl bg-gray-50 p-2 border border-gray-100" />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/5 rounded-xl"><Eye className="w-4 h-4 text-gray-700" /></div>
+                      <Link href={`/products/${item._id}`} className="shrink-0 block relative group">
+                        <img src={item.image} alt={item.title} className="w-14 h-14 object-contain rounded-xl bg-gray-50 border p-1" />
                       </Link>
-
                       <div>
-                        <Link href={`/products/${item._id}`} className="font-black text-gray-900 tracking-tight text-base hover:text-blue-600 transition line-clamp-1">{item.title}</Link>
-                        <span className="text-[10px] bg-slate-100 font-bold uppercase tracking-widest text-slate-500 px-2 py-0.5 rounded-md mt-1 inline-block">{item.category}</span>
+                        <Link href={`/products/${item._id}`} className="font-black text-sm text-gray-900 tracking-tight hover:text-blue-600 line-clamp-1">{item.title}</Link>
+                        <span className="text-[10px] bg-slate-100 font-bold uppercase tracking-widest text-slate-500 px-2 rounded mt-1 inline-block">{item.category}</span>
                       </div>
                     </div>
 
-                    {/* QUANTITY CONSOLES & INTERACTION TOOLS */}
-                    <div className="flex items-center justify-between sm:justify-end gap-8 w-full sm:w-auto border-t sm:border-0 pt-4 sm:pt-0">
-                      
-                      {/* QUANTITY MUTATOR SELECTOR COUNTER */}
-                      <div className="flex items-center gap-2 border border-gray-200 rounded-xl p-1.5 bg-gray-50/50">
-                        <button onClick={() => updateQuantity(item._id, -1)} className="p-1 rounded-md bg-white hover:bg-gray-100 text-gray-600 transition border shadow-sm"><Minus className="w-3.5 h-3.5" /></button>
-                        <span className="w-8 text-center font-mono font-black text-sm text-gray-950">{item.quantity || 1}</span>
-                        <button onClick={() => updateQuantity(item._id, 1)} className="p-1 rounded-md bg-white hover:bg-gray-100 text-gray-600 transition border shadow-sm"><Plus className="w-3.5 h-3.5" /></button>
+                    <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto border-t sm:border-0 pt-2 sm:pt-0">
+                      <div className="flex items-center gap-2 border rounded-xl p-1 bg-gray-50">
+                        <button onClick={() => updateQuantity(item._id, -1)} className="p-1 rounded bg-white border shadow-sm"><Minus className="w-3" /></button>
+                        <span className="w-6 text-center font-mono font-black text-xs">{item.quantity || 1}</span>
+                        <button onClick={() => updateQuantity(item._id, 1)} className="p-1 rounded bg-white border shadow-sm"><Plus className="w-3" /></button>
                       </div>
-
-                      {/* SUB-AGGREGATION VALUE CALCULATIONS PROFILE */}
-                      <div className="flex items-center gap-4">
-                        <p className="font-mono font-black text-gray-950 text-sm min-w-[70px] text-right">{formatPrice(item.price * (item.quantity || 1))}</p>
-                        <button onClick={() => handleRemoveItem(item._id, item.title)} className="text-red-500 hover:text-red-700 p-2 rounded-xl bg-red-50 border border-red-100 shadow-sm"><Trash2 className="w-4 h-4" /></button>
-                      </div>
-
+                      <p className="font-mono font-black text-gray-950 text-sm min-w-[60px] text-right">{formatPrice(item.price * (item.quantity || 1))}</p>
+                      <button onClick={() => handleRemoveItem(item._id, item.title)} className="text-red-500 hover:text-red-700 p-1.5 rounded-lg bg-red-50 border border-red-100"><Trash2 className="w-4 h-4" /></button>
                     </div>
                   </div>
                 ))}
-              </div>
-
-              {/* TOTAL ALLOCATION BOARD */}
-              <div className="bg-slate-50 border border-slate-100 rounded-3xl p-6 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div>
-                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Aggregated Inventory Value</p>
-                  <p className="text-2xl font-black text-gray-950 font-mono">{formatPrice(cartTotalValue)}</p>
-                </div>
                 
-                <button onClick={handleMockCheckoutProcess} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black uppercase tracking-widest px-8 py-4 rounded-xl shadow-md transition">
-                  <ShieldCheck className="w-4 h-4" /> Proceed to Order Stage
-                </button>
+                <div className="pt-6 border-t flex justify-between items-center bg-slate-50 rounded-2xl p-4 mt-4">
+                  <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Total Inventory Value</span>
+                  <span className="text-xl font-black text-gray-950 font-mono">{formatPrice(cartTotalValue)}</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* SHIPPING LOGISTICS REGISTRATION INTERFACE FORM */}
+          <div className="bg-white rounded-[36px] shadow-2xl border border-gray-100 p-8 lg:col-span-5">
+            <h2 className="text-2xl font-black uppercase tracking-tight flex items-center gap-3 border-b pb-4 mb-6">
+              <MapPin className="w-6 h-6 text-blue-600" /> Delivery Matrix
+            </h2>
+
+            <form onSubmit={handlePlaceOrderSubmit} className="space-y-4">
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Full Name</label>
+                <div className="relative"><User className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
+                  <input type="text" required placeholder="Ahmed Raza Khan" value={shippingDetails.fullName} onChange={(e) => setShippingDetails({...shippingDetails, fullName: e.target.value})} className="w-full text-xs font-semibold pl-9 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
+                </div>
               </div>
 
-            </div>
-          )}
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Contact Phone</label>
+                <div className="relative"><Phone className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
+                  <input type="tel" required placeholder="03011234567" value={shippingDetails.phone} onChange={(e) => setShippingDetails({...shippingDetails, phone: e.target.value})} className="w-full text-xs font-semibold pl-9 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Street Address</label>
+                <textarea required rows={2} placeholder="House 42, Street 12, North Nazimabad" value={shippingDetails.address} onChange={(e) => setShippingDetails({...shippingDetails, address: e.target.value})} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition resize-none" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">City</label>
+                  <input type="text" required placeholder="Karachi" value={shippingDetails.city} onChange={(e) => setShippingDetails({...shippingDetails, city: e.target.value})} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Postal Code</label>
+                  <input type="text" required placeholder="74700" value={shippingDetails.postalCode} onChange={(e) => setShippingDetails({...shippingDetails, postalCode: e.target.value})} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Payment Method</label>
+                  <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="w-full text-xs font-bold p-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none cursor-pointer">
+                    <option value="COD">Cash On Delivery</option>
+                    <option value="JazzCash">JazzCash</option>
+                    <option value="EasyPaisa">EasyPaisa</option>
+                    <option value="Card">Card</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Country</label>
+                  <input type="text" disabled value={shippingDetails.country} className="w-full text-xs font-semibold p-3 rounded-xl border border-gray-200 bg-gray-100 text-gray-500" />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">Order Notes (Optional)</label>
+                <div className="relative"><Notebook className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
+                  <input type="text" placeholder="Call before delivery..." value={orderNotes} onChange={(e) => setOrderNotes(e.target.value)} className="w-full text-xs font-semibold pl-9 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:border-blue-500 transition" />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={cartItems.length === 0 || loadingCheckout}
+                className={`w-full inline-flex items-center justify-center gap-2 text-white text-xs font-black uppercase tracking-widest px-8 py-4 rounded-xl shadow-md transition ${cartItems.length === 0 || loadingCheckout ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
+              >
+                <ShieldCheck className="w-4 h-4" /> {loadingCheckout ? "Processing Transaction..." : "Confirm & Dispatch Order"}
+              </button>
+            </form>
+          </div>
 
         </div>
       </div>
