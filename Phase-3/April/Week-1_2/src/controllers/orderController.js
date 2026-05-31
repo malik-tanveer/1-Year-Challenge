@@ -127,7 +127,8 @@ export const updateOrder = async (req, res) => {
     //   return res.status(403).json({ success: false, message: "Access denied" });
     // }
 
-    order.status = req.body.status || order.status;
+    Object.assign(order, req.body);
+
     await order.save();
 
     res.status(200).json({
