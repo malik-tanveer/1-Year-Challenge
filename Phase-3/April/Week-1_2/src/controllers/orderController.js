@@ -123,9 +123,9 @@ export const updateOrder = async (req, res) => {
       return res.status(404).json({ success: false, message: "Order not found" });
     }
 
-    if (order.user.toString() !== req.user._id.toString() && req.user.role !== "admin") {
-      return res.status(403).json({ success: false, message: "Access denied" });
-    }
+    // if (order.user.toString() !== req.user._id.toString() && req.user.role !== "admin") {
+    //   return res.status(403).json({ success: false, message: "Access denied" });
+    // }
 
     order.status = req.body.status || order.status;
     await order.save();
