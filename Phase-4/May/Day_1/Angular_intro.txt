@@ -1,0 +1,184 @@
+
+Angular is a **frontend framework** built by Google, and it mainly uses **TypeScript**.
+
+### Technology Types
+
+| Technology | Type                 |
+| ---------- | -------------------- |
+| HTML       | Markup Language      |
+| CSS        | Styling Language     |
+| JavaScript | Programming Language |
+| TypeScript | Programming Language |
+| React      | UI Library           |
+| Next.js    | React Framework      |
+| Angular    | Frontend Framework   |
+
+---
+
+# What is Angular?
+
+Angular is a framework used to build:
+
+* Web applications
+* Dashboards
+* Admin panels
+* Enterprise applications
+* Single Page Applications (SPAs)
+
+It provides many features out of the box:
+
+* Components
+* Routing
+* Forms
+* HTTP Requests
+* Dependency Injection
+* State Management tools
+* Authentication support
+
+---
+
+# Angular vs React
+
+### React
+
+* More flexible
+* You choose many libraries yourself
+* Easier to start
+* UI-focused
+
+### Angular
+
+* More structured
+* Includes many built-in features
+* Better for large-scale applications
+* Architecture-focused
+
+---
+
+# New Concepts You Will Learn in Angular
+
+### 1. Components
+
+Components are reusable UI blocks.
+
+```ts
+@Component({
+  selector: 'app-user',
+  template: '<h1>Hello</h1>'
+})
+export class UserComponent {}
+```
+
+---
+
+### 2. Services
+
+Services contain business logic and API calls.
+
+```ts
+@Injectable()
+export class UserService {}
+```
+
+---
+
+### 3. Dependency Injection (DI)
+
+Angular automatically provides services to components.
+
+```ts
+constructor(private userService: UserService) {}
+```
+
+---
+
+### 4. Lifecycle Hooks
+
+Similar to React's `useEffect()`.
+
+```ts
+ngOnInit() {}
+
+ngOnDestroy() {}
+```
+
+---
+
+### 5. RxJS
+
+One of the most important Angular concepts.
+
+You will learn:
+
+* Observable
+* Subject
+* BehaviorSubject
+* pipe()
+* subscribe()
+
+---
+
+# Before Starting Angular
+
+It helps if you already know:
+
+✅ HTML
+✅ CSS
+✅ JavaScript
+✅ TypeScript
+
+Knowing React or Next.js is a bonus, but not required.
+
+---
+
+# Your Goal for Day 1
+
+Focus on understanding:
+
+1. What Angular is
+2. Angular project structure
+3. Components
+4. Standalone Components
+5. Dependency Injection (basic idea)
+
+
+Angular is best of this:
+Component → UI
+
+Service → Business Logic
+Guard → Route Protection
+Interceptor → API Handling
+Routing → Navigation
+
+
+More Structured
+Enterprise Friendly
+Large Team Friendly
+Opinionated Architecture
+
+Angular
+
+Angular ki philosophy bilkul alag hai.
+
+Angular
+ ├── Components
+ ├── Routing
+ ├── Forms
+ ├── HTTP Client
+ ├── Dependency Injection
+ ├── Services
+ ├── RxJS
+ └── Project Structure
+
+Ye sab Angular ke andar built-in hota hai.
+
+May Goal:
+
+Angular Basics
+Services
+DI
+RxJS
+Routing
+Auth
+Admin Dashboard
+

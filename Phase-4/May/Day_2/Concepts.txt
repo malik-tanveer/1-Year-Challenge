@@ -1,0 +1,37 @@
+# Day 2 Goal
+
+✔ How to install Angular CLI
+✔ How to create an Angular project
+✔ How to run Angular
+✔ Angular folder structure
+✔ Components
+✔ Services
+✔ Standalone Components (basic idea)
+✔ app.component.ts
+✔ app.routes.ts
+
+
+
+C:\Users\user_name>npm install -g @angular/cli
+
+changed 288 packages in 3m
+
+70 packages are looking for funding
+  run `npm fund` for details
+
+C:\Users\user_name>ng version
+
+     _                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / △ \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+
+
+Angular CLI       : 21.2.13
+Node.js           : 22.21.0
+Package Manager   : npm 11.1.0
+Operating System  : win32 x64
+
+
