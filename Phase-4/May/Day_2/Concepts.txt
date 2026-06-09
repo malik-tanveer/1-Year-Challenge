@@ -33,5 +33,3 @@ Angular CLI       : 21.2.13
 Node.js           : 22.21.0
 Package Manager   : npm 11.1.0
 Operating System  : win32 x64
-
-
