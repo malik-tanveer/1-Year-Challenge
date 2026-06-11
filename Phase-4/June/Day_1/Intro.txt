@@ -1,0 +1,156 @@
+| 1   | Intro to Realtime | What is WebSocket vs HTTP     |
+
+### HTTP
+
+Jab browser server ko request bhejta hai:
+
+```text
+Client ---- Request ----> Server
+Client <--- Response ---- Server
+```
+
+Example:
+
+```js
+fetch("/users")
+```
+
+Server response dega:
+
+```json
+{
+  "name": "Ali"
+}
+```
+
+Connection khatam ❌
+
+Agar 5 second baad naya data chahiye:
+
+```js
+fetch("/users")
+```
+
+Dobara request bhejni padegi.
+
+
+
+### Problem
+
+Maan lo WhatsApp bana rahe ho.
+
+Ali ne message bheja:
+
+```text
+Hello
+```
+
+Ab Ahmed ko kaise pata chalega?
+
+HTTP mein:
+
+```js
+setInterval(() => {
+  fetch("/messages");
+}, 1000);
+```
+
+Har second request jayegi 😭
+
+1000 users hain to server roast ho jayega.
+
+
+
+# WebSocket
+
+WebSocket ek baar connection banata hai.
+
+```text
+Client <=======> Server
+```
+
+Connection open rehta hai.
+
+Server khud data bhej sakta hai.
+
+Example:
+
+```text
+Ali -> Hello
+```
+
+Server:
+
+```text
+Ahmed ko turant send karo
+```
+
+Ahmed:
+
+```text
+Hello
+```
+
+Instant mil gaya ⚡
+
+Koi extra request nahi.
+
+
+
+# HTTP vs WebSocket
+
+| HTTP                    | WebSocket               |
+| -- | -- |
+| Request → Response      | Two-way communication   |
+| Connection close        | Connection open         |
+| Real-time nahi          | Real-time               |
+| API calls               | Chat apps               |
+| Slower for live updates | Faster for live updates |
+
+
+
+# Real Examples
+
+### HTTP
+
+* Login
+* Signup
+* Product List
+* User Profile
+* Blog Data
+
+
+
+### WebSocket
+
+* WhatsApp
+* Discord
+* Messenger
+* Live Notifications
+* Multiplayer Games
+* Live Stock Market
+
+
+# Socket.io Kya Hai?
+
+WebSocket ko easy banane wali library.
+
+Normal WebSocket:
+
+```js
+const ws = new WebSocket("ws://localhost:3000");
+```
+
+Socket.io:
+
+```js
+const socket = io("http://localhost:3000");
+```
+
+Features:
+
+✅ Auto reconnect
+✅ Rooms
+✅ Events
+✅ Broadcasting
+✅ Easy API

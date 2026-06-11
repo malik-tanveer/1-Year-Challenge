@@ -4,6 +4,7 @@ import { About } from './pages/about/about';
 import { Contact } from './pages/contact/contact';
 import { Help } from './pages/help/help';
 import { NotFound } from './pages/not-found/not-found';
+import { App } from './app';
 
 export const routes: Routes = [
     {
